@@ -22,8 +22,12 @@ def products():
 
 @app.route('/insert/', methods=['POST'])
 def insert_to_db():
+    dbDict = {}
     if request.method == 'POST':
-        print("hallo")
+        for key, value in request.args.items():
+            dbDict[key] = value
+    client["fashion"].insert_one(dbDict)
+
 
 
 if __name__ == "__main__":

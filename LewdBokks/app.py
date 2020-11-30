@@ -21,14 +21,16 @@ def preferences():
 def products():
     return render_template("products.html")
 
-@app.route('/insert/', methods=['POST'])
+@app.route('/insert', methods=['POST'])
 def insert_to_db():
     dbDict = {}
     if request.method == 'POST':
+        print(request.get_data())
         for key, value in request.args.items():
             dbDict[key] = value
-    client["fashion"].insert_one(dbDict)
-
+    #client["fashion"].insert_one(dbDict)
+    print(dbDict)
+    return "Received"
 
 
 if __name__ == "__main__":

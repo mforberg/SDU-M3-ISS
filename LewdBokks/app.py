@@ -7,7 +7,6 @@ app = Flask(__name__)
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 client = pymongo.MongoClient("mongodb://bobitybo:<"+code+">@<hostname>/<dbname>?ssl=true&replicaSet=atlas-123xr0-shard-0&authSource=admin&retryWrites=true&w=majority")
 
-print(client)
 @app.route('/')
 def index():
     db = client.test

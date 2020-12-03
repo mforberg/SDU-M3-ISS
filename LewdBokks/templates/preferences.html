@@ -85,8 +85,8 @@
                             <h2>{{key}}</h2>
                             {% for val in value%}
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                <label class="form-check-label" for="defaultCheck1">
+                                <input class="form-check-input" type="checkbox" value="" id="{{val}}">
+                                <label class="form-check-label" for="{{val}}">
                                     {{val}} </label>
                             </div>
                             {%endfor%}

@@ -57,3 +57,23 @@
     min-width: 100%;
     height: 32rem;
 }
+
+.form-signin{
+    margin: auto;
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+}
+
+.loginbody{
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    text-align: center;
+    height: 100%;
+}
+
+.prefrow{
+    margin: 100px 0 0 10px;
+}

@@ -2,8 +2,9 @@ import random
 import os
 import string
 import requests
+import json
 
-number_of_items = 10
+number_of_items = 9000
 random.seed(1234)
 
 uuid = 1
@@ -28,19 +29,20 @@ for x in range(number_of_items):
     items_dict = {}
     while len(uuid_list) < x:
        # print(uuid)
-        uuid = random.randint(1, 9999)
+        uuid = random.randint(1, 10000000000000)
         if uuid not in uuid_list:
             uuid_list.append(uuid)
 
     items_dict['uuid'] = uuid    
     category = random.choice(all_categories)
-    items_dict['category'] = category
     items_dict['clothes_category'] = random.choice(category)
     items_dict['brand'] = random.choice(brand_list)
     items_dict['color'] = random.choice(color_list)
     items_dict['price'] = random.randint(100, 2500)
     items_dict['style'] = random.choice(style)
-    requests.post("http://localhost:5000/insert", data=items_dict )
+    json_data = json.dumps(items_dict)
+    print(json_data)
+    requests.post("http://localhost:5000/insert", json=json_data )
     #print(items_dict)
 
     

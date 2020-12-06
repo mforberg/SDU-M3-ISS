@@ -19,8 +19,8 @@ app.config['TEMPLATES_AUTO_RELOAD'] = True
 
 
 @app.route('/')
-def login():
-    return render_template("login.html")
+def index():
+    return render_template("index.html")
 
 
 @app.route('/validate', methods=['GET', 'POST'])
@@ -36,9 +36,9 @@ def validate():
     return render_template("login.html", error=error)
 
 
-@app.route('/index')
-def index():
-    return render_template("index.html")
+@app.route('/login')
+def login():
+   return render_template("login.html")
 
 
 @app.route('/preferences/')

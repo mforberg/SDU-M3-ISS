@@ -1,24 +1,21 @@
-from flask import Flask, request, render_template, redirect, url_for, g
-from pymongo import MongoClient
-from jinja2 import Environment, FileSystemLoader
-import config
+from flask import Flask, request, render_template, redirect, url_for
+from backend.db import get_connection as con
 import json
 
-code = config.db_password
 app = Flask(__name__)
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 
 
-class Connect(object):
-    @staticmethod
-    def get_connection():
-        return MongoClient(
-            "mongodb+srv://bobitybo:" + code + "@cluster0.rtdkg.mongodb.net/ISSProject?retryWrites=true&w=majority")
-
-
-connection = Connect.get_connection()
-db = connection["ISSProject"]
-col = db["Fashion"]
+# class Connect(object):
+#     @staticmethod
+#     def get_connection():
+#         return MongoClient(
+#             "mongodb+srv://bobitybo:" + code + "@cluster0.rtdkg.mongodb.net/ISSProject?retryWrites=true&w=majority")
+#
+#
+# connection = Connect.get_connection()
+# db = connection["ISSProject"]
+# col = db["Fashion"]
 
 
 @app.route('/')
@@ -47,9 +44,9 @@ def index():
 @app.route('/preferences/')
 def preferences():
     entries = {}
-    dbs = db.list_collection_names()
+    dbs = con.get_db().list_collection_names()
     for datab in dbs:
-        collec = db[datab]
+        collec = con.get_db()[datab]
         listy = []
         for x in collec.find_one():
             listy.append(x)
@@ -66,7 +63,7 @@ def products():
 def insert_to_db():
     content = request.json
     if request.method == 'POST':
-        col.insert(json.loads(content))
+        con.get_table("Fashion").insert(json.loads(content))
     return "Received"
 
 

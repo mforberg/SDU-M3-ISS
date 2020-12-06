@@ -8,36 +8,41 @@ code = config.db_password
 app = Flask(__name__)
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 
+
 class Connect(object):
     @staticmethod
-    def getConnection():
-        return MongoClient("mongodb+srv://bobitybo:"+code+"@cluster0.rtdkg.mongodb.net/ISSProject?retryWrites=true&w=majority")
+    def get_connection():
+        return MongoClient(
+            "mongodb+srv://bobitybo:" + code + "@cluster0.rtdkg.mongodb.net/ISSProject?retryWrites=true&w=majority")
 
-connection = Connect.getConnection()
+
+connection = Connect.get_connection()
 db = connection["ISSProject"]
 col = db["Fashion"]
+
 
 @app.route('/')
 def login():
     return render_template("login.html")
 
+
 @app.route('/validate', methods=['GET', 'POST'])
 def validate():
     error = None
     print(request.method)
-    if request.method == 'POST':   
+    if request.method == 'POST':
         print(request.form)
-        if request.form['username'] != 'peter' or request.form['password'] !='pedigrew':
+        if request.form['username'] != 'peter' or request.form['password'] != 'pedigrew':
             error = 'Invalid'
         else:
             return redirect(url_for('index'))
     return render_template("login.html", error=error)
 
 
-
 @app.route('/index')
 def index():
     return render_template("index.html")
+
 
 @app.route('/preferences/')
 def preferences():
@@ -49,11 +54,13 @@ def preferences():
         for x in collec.find_one():
             listy.append(x)
         entries[datab] = listy
-    return render_template("preferences.html", entries = entries)
+    return render_template("preferences.html", entries=entries)
+
 
 @app.route('/products/')
 def products():
     return render_template("products.html")
+
 
 @app.route('/insert', methods=['POST'])
 def insert_to_db():
@@ -65,4 +72,3 @@ def insert_to_db():
 
 if __name__ == "__main__":
     app.run(debug=True)
-

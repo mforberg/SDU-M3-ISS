@@ -65,7 +65,7 @@ def insert_to_db():
     content = request.json
     if request.method == 'POST':
         #con.get_table("Fashion").insert(json.loads(content))
-        #TODO: fix this
+        #TODO: fix this ^ is original line, but con no work
         pass
     return "Received"
 

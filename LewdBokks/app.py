@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template, redirect, url_for
-from backend.db import get_connection as con
+from backend.db import *
 import json
 
 app = Flask(__name__)
@@ -44,9 +44,10 @@ def login():
 @app.route('/preferences/')
 def preferences():
     entries = {}
-    dbs = con.get_db().list_collection_names()
+    temp = get_db()
+    dbs = temp.list_collection_names()
     for datab in dbs:
-        collec = con.get_db()[datab]
+        collec = temp[datab]
         listy = []
         for x in collec.find_one():
             listy.append(x)
@@ -63,7 +64,9 @@ def products():
 def insert_to_db():
     content = request.json
     if request.method == 'POST':
-        con.get_table("Fashion").insert(json.loads(content))
+        #con.get_table("Fashion").insert(json.loads(content))
+        #TODO: fix this
+        pass
     return "Received"
 
 

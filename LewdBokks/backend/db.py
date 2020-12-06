@@ -10,14 +10,15 @@ def get_connection():
         "mongodb+srv://bobitybo:" + code + "@cluster0.rtdkg.mongodb.net/ISSProject?retryWrites=true&w=majority")
 
 
-def get_table(self, db_name: str):
-    return self.db[db_name]
+def get_table(db_name: str):
+    return db[db_name]
 
 
-def get_db(self):
-    return self.db
+def get_db():
+    return db
 
 
 connection = get_connection()
 db = connection["ISSProject"]
-accounts = connection["Accounts"]
+accounts = db["Accounts"]
+preferences = db["Preferences"]

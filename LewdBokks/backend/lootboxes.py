@@ -1,3 +1,5 @@
+import db as db
+
 class LootBox:
 
     __instance = None
@@ -16,6 +18,7 @@ class LootBox:
 
     def print_hello(self, test):
         print("hello" + test)
+        # db.preferences
 
 
 LootBox.get_instance().print_hello("penis")

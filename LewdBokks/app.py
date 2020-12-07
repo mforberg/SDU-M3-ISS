@@ -87,9 +87,11 @@ def insert_to_db():
         pass
     return "Received"
 
+
 @app.route('/lootBox')
-def lootBox():
+def loot_box():
     return render_template("lootBox.html")
+
 
 if __name__ == "__main__":
     app.run(debug=True)

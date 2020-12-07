@@ -19,8 +19,8 @@ class LootBox:
     def generate_lootbox(self, uuid):
         """Method to generate a single lootbox of items based on a customers (UUID) preferences"""
 
-        preferences = self.get_preferences(uuid)
-        collected_items = self.collect(preferences)
+        preferences = self.__get_preferences(uuid)
+        collected_items = self.__collect(preferences)
         probability_assigned_items = self.__set_probabilities(collected_items)
         drawn_items = self.__draw_items(probability_assigned_items)
 
@@ -42,3 +42,6 @@ class LootBox:
     def __draw_items(self, probabilitiy_assigned_items):
         """TODO: Should draw items based on probabilities"""
         return 0
+# postgres
+# sdu-m3-iss
+# db: sdu

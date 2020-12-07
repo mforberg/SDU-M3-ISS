@@ -3,11 +3,13 @@ from backend.db import *
 import json
 from forms import LoginForm
 import os
+from LewdBokks.backend.database_connection import DatabaseConnection
 
 secret_key = os.urandom(32)
 app = Flask(__name__)
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 app.config['SECRET_KEY'] = secret_key
+dbc = DatabaseConnection().get_instance()
 
 
 # class Connect(object):
@@ -49,12 +51,12 @@ def login():
     return render_template('login.html', form=form)
 
 
-@app.route('/register')
-def login():
-    form = LoginForm()
-    if form.validate_on_submit():
-                return render_template('index.html')
-    return render_template('login.html', form=form)
+# @app.route('/register')
+# def login():
+#     form = LoginForm()
+#     if form.validate_on_submit():
+#                 return render_template('index.html')
+#     return render_template('login.html', form=form)
 
 
 @app.route('/preferences/')
@@ -70,9 +72,14 @@ def preferences():
         entries[datab] = listy
     return render_template("preferences.html", entries=entries)
 
+
 @app.route('/coupons/')
 def coupons():
-    return render_template("coupons.html")
+    uuid = 'b3089a02-d258-4ba2-a90a-3752432e2892'
+    records = dbc.get_instance().get_coupons_by_uuid(uuid)
+
+    return render_template("coupons.html", entries=records)
+
 
 @app.route('/products/')
 def products():

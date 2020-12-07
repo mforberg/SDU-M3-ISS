@@ -1,6 +1,7 @@
 import psycopg2
+from psycopg2 import sql
 
-from db_config import *
+from LewdBokks.backend.db_config import *
 
 
 class DatabaseConnection:
@@ -35,5 +36,18 @@ class DatabaseConnection:
         return DatabaseConnection.__instance__
 
     def query(self, query):
-        self.__cursor.execute(query)
+        result = self.__cursor.execute(query)
+
+        if result:
+            return result
+        return None
+
+    def insert_dummy_data(self, query, records):
+
+        self.__cursor.executemany(query, records)
+        self.__connection.commit()
+        print(self.__cursor.rowcount)
+
+    def get_coupons_by_uuid(self, uuid):
+        self.__cursor.execute("select * from coupons.coupon where business_uuid = %s", (uuid,))
         return self.__cursor.fetchall()

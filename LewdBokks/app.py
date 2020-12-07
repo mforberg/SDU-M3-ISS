@@ -1,9 +1,13 @@
 from flask import Flask, request, render_template, redirect, url_for
 from backend.db import *
 import json
+from forms import LoginForm
+import os
 
+secret_key = os.urandom(32)
 app = Flask(__name__)
 app.config['TEMPLATES_AUTO_RELOAD'] = True
+app.config['SECRET_KEY'] = secret_key
 
 
 # class Connect(object):
@@ -18,6 +22,7 @@ app.config['TEMPLATES_AUTO_RELOAD'] = True
 # col = db["Fashion"]
 
 
+
 @app.route('/')
 def index():
     return render_template("index.html")
@@ -26,6 +31,7 @@ def index():
 @app.route('/validate', methods=['GET', 'POST'])
 def validate():
     error = None
+    form = LoginForm()
     print(request.method)
     if request.method == 'POST':
         print(request.form)
@@ -33,12 +39,15 @@ def validate():
             error = 'Invalid'
         else:
             return redirect(url_for('index'))
-    return render_template("login.html", error=error)
+    return render_template("login.html", error=error, form=form)
 
 
 @app.route('/login')
 def login():
-   return render_template("login.html")
+    form = LoginForm()
+    if form.validate_on_submit():
+                return render_template('index.html')
+    return render_template('login.html', form=form)
 
 
 @app.route('/preferences/')

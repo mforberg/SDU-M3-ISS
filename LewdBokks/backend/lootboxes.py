@@ -42,6 +42,4 @@ class LootBox:
     def __draw_items(self, probabilitiy_assigned_items):
         """TODO: Should draw items based on probabilities"""
         return 0
-# postgres
-# sdu-m3-iss
-# db: sdu
+

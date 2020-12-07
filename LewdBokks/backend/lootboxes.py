@@ -29,7 +29,7 @@ class LootBox:
     def get_preferences(self, uuid):
         """TODO: Needs to collect the users preferences from a database, based on their UUID"""
         dbc = DatabaseConnection().get_instance()
-        result = dbc.query("SELECT VERSION();")
+        result = dbc.query("SELECT * FROM business.users")
         print(result)
         return 0
 

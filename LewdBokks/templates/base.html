@@ -30,14 +30,15 @@
         {%endblock%}
 </head>
 
-{% set navigation_bar = [('/', 'index', 'Index', 'home'), 
+{% set navigation_bar = [('/', 'index', 'Index', 'home'),
                         ('/preferences', 'preferences', 'Preferences', 'file'),
-                        ('/products', 'products', 'Products', 'shopping-cart')]-%}
+                        ('/coupons', 'coupons', 'Coupons', 'file'),
+                        ('/products', 'products', 'Products', 'shopping-cart')]-%} 
 
 {%set active_page = active_page | default('index')-%}
 <body>
     <nav class="navbar navbar-dark navbar-expand-lg bg-dark sticky-top">
-        <a class="navbar-brand" href="#">E-Bola Boks</a>
+        <a class="navbar-brand" href="#">E-Bola Boksen</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResize"
             aria-controls="navbarResize" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -59,6 +60,9 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/lootBox">Loot Box</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/register">Register</a>
                 </li>
             </ul>
         </div>

@@ -7,11 +7,6 @@ connection = psycopg2.connect(
     user=db_user,
     password=db_password)
 try:
-    connection = psycopg2.connect(user=db_user,
-                                  password=db_password,
-                                  host=db_host,
-                                  database=db_database)
-
     cursor = connection.cursor()
     # Print PostgreSQL Connection properties
     print(connection.get_dsn_parameters(), "\n")

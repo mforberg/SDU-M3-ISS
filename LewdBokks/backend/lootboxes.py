@@ -1,4 +1,4 @@
-import db as db
+from database_connection import DatabaseConnection
 
 
 class LootBox:
@@ -26,8 +26,11 @@ class LootBox:
 
         return drawn_items
 
-    def __get_preferences(self, uuid):
+    def get_preferences(self, uuid):
         """TODO: Needs to collect the users preferences from a database, based on their UUID"""
+        dbc = DatabaseConnection().get_instance()
+        result = dbc.query("SELECT VERSION();")
+        print(result)
         return 0
 
     def __collect(self, preferences):
@@ -43,3 +46,5 @@ class LootBox:
         """TODO: Should draw items based on probabilities"""
         return 0
 
+
+LootBox().get_preferences(123)

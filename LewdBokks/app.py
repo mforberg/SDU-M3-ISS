@@ -38,7 +38,7 @@ def validate():
 
 @app.route('/login')
 def login():
-   return render_template("login.html")
+    return render_template("login.html")
 
 
 @app.route('/preferences/')
@@ -64,8 +64,8 @@ def products():
 def insert_to_db():
     content = request.json
     if request.method == 'POST':
-        #con.get_table("Fashion").insert(json.loads(content))
-        #TODO: fix this ^ is original line, but con no work
+        # con.get_table("Fashion").insert(json.loads(content))
+        # TODO: fix this ^ is original line, but con no work
         pass
     return "Received"
 

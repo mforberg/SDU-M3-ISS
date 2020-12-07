@@ -22,7 +22,6 @@ app.config['SECRET_KEY'] = secret_key
 # col = db["Fashion"]
 
 
-
 @app.route('/')
 def index():
     return render_template("index.html")
@@ -43,6 +42,14 @@ def validate():
 
 
 @app.route('/login')
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+                return render_template('index.html')
+    return render_template('login.html', form=form)
+
+
+@app.route('/register')
 def login():
     form = LoginForm()
     if form.validate_on_submit():

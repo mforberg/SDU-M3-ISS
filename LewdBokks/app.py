@@ -50,11 +50,8 @@ def login():
 
 
 @app.route('/register')
-def login():
-    form = LoginForm()
-    if form.validate_on_submit():
-                return render_template('index.html')
-    return render_template('login.html', form=form)
+def register():
+    return render_template('index.html')
 
 
 @app.route('/preferences/')

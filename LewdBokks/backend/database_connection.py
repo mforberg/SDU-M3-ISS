@@ -1,7 +1,6 @@
 import psycopg2
-from psycopg2 import sql
 
-from LewdBokks.backend.db_config import *
+from .db_config import *
 
 
 class DatabaseConnection:

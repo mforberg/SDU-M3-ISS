@@ -3,7 +3,7 @@ from backend.db import *
 import json
 from forms import LoginForm
 import os
-from LewdBokks.backend.database_connection import DatabaseConnection
+from backend.database_connection import DatabaseConnection
 
 secret_key = os.urandom(32)
 app = Flask(__name__)

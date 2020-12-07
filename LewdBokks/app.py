@@ -46,7 +46,7 @@ def validate():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-                return render_template('index.html')
+        return render_template('index.html')
     return render_template('login.html', form=form)
 
 
@@ -63,6 +63,9 @@ def preferences():
         entries[datab] = listy
     return render_template("preferences.html", entries=entries)
 
+@app.route('/coupons/')
+def coupons():
+    return render_template("coupons.html")
 
 @app.route('/products/')
 def products():

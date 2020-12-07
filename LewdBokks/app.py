@@ -51,12 +51,9 @@ def login():
     return render_template('login.html', form=form)
 
 
-# @app.route('/register')
-# def login():
-#     form = LoginForm()
-#     if form.validate_on_submit():
-#                 return render_template('index.html')
-#     return render_template('login.html', form=form)
+@app.route('/register')
+def register():
+    return render_template('register.html')
 
 
 @app.route('/preferences/')
@@ -81,6 +78,7 @@ def coupons():
     return render_template("coupons.html", entries=records)
 
 
+
 @app.route('/products/')
 def products():
     return render_template("products.html")
@@ -94,6 +92,11 @@ def insert_to_db():
         # TODO: fix this ^ is original line, but con no work
         pass
     return "Received"
+
+
+@app.route('/lootBox')
+def loot_box():
+    return render_template("lootBox.html")
 
 
 if __name__ == "__main__":

@@ -47,6 +47,10 @@ class DatabaseConnection:
         self.__connection.commit()
         print(self.__cursor.rowcount)
 
-    def get_coupons_by_uuid(self, uuid):
+    def get_coupons_by_uuid(self, uuid) -> list:
         self.__cursor.execute("select * from coupons.coupon where business_uuid = %s", (uuid,))
         return self.__cursor.fetchall()
+
+    def delete_coupon_by_uuids(self, business_uuid, item_uuid):
+        self.__cursor.execute("DELETE FROM coupons.coupon WHERE business_uuid = %s AND item_uuid = %s"
+                              , (business_uuid, item_uuid,))

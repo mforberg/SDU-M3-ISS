@@ -85,7 +85,7 @@ class DatabaseConnection:
                               , (business_uuid, item_uuid,))
         self.__connection.commit()
 
-    def get_distinct_primary_categories(self) -> tuple:
+    def get_distinct_categories(self) -> tuple:
         self.__cursor.execute("select distinct primary_category from products.items")
         primary_categories = []
         for item in self.__cursor.fetchall():

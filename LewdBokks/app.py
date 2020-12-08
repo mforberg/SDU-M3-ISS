@@ -5,7 +5,6 @@ from forms import *
 import os
 from backend.database_connection import DatabaseConnection
 from flask_session import Session
-import redis
 
 secret_key = os.urandom(32)
 app = Flask(__name__)
@@ -41,7 +40,7 @@ def validate():
         if request.form['username'] != 'peter' or request.form['password'] != 'pedigrew':
             error = 'Invalid'
         else:
-            
+
             session['username'] = request.form['username']
             return redirect(url_for('index'))
     return render_template("login.html", error=error, form=form)
@@ -51,6 +50,7 @@ def validate():
 def login():
     form = LoginForm()
     return render_template('login.html', form=form)
+
 
 @app.route('/logout')
 def logout():
@@ -105,7 +105,7 @@ def validate_registration_person():
         else:
             dbc.get_instance().register_person(username, password, email)
             return redirect(url_for('index'))
-    return render_template("registerPerson.html", error=error, form=form) 
+    return render_template("registerPerson.html", error=error, form=form)
 
 
 @app.route('/validateRegistrationCompany', methods=["POST", "GET"])
@@ -135,15 +135,10 @@ def validate_registration_company():
 @app.route('/preferences/')
 def preferences():
     entries = {}
-    temp = get_db()
-    dbs = temp.list_collection_names()
-    for datab in dbs:
-        collec = temp[datab]
-        listy = []
-        for x in collec.find_one():
-            listy.append(x)
-        entries[datab] = listy
-    return render_template("preferences.html", entries=entries)
+    unique_categories = dbc.get_distinct_categories()
+    prim_cat = unique_categories[0]
+    sub_cat = unique_categories[1]
+    return render_template("preferences.html", entries=unique_categories)
 
 
 #b_uuid = 'b3089a02-d258-4ba2-a90a-3752432e2892'
@@ -152,7 +147,7 @@ def preferences():
 @app.route('/coupons/', methods=['GET', 'POST'])
 def coupons():
     b_uuid = 'b3089a02-d258-4ba2-a90a-3752432e2892'
-    categories = dbc.get_distinct_primary_categories()
+    categories = dbc.get_distinct_categories()
     form2 = AddCoupon(primary_cat=categories[0], sub_cat=categories[1])
 
     records = dbc.get_coupons_by_uuid(b_uuid)

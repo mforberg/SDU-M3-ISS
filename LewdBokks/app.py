@@ -205,7 +205,11 @@ def loot_box():
 
 @app.route('/update_prefs', methods=["POST"])
 def update_prefs():
-    print(request.form)
+    uuid = session["uuid"]
+    pref_list = []
+    for key in request.form:
+        pref_list.append(key)
+    dbc.update_users_preferences(uuid, pref_list)
     return redirect(url_for('index'))
 
 

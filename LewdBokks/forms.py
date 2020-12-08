@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import PasswordField, StringField, SubmitField, validators, BooleanField, RadioField, SelectField, IntegerField
+from wtforms import widgets, SelectMultipleField, PasswordField, StringField, SubmitField, validators, BooleanField, RadioField, SelectField, IntegerField
 from wtforms.validators import DataRequired, Length
 
 
@@ -85,3 +85,11 @@ class RegisterCompanyForm(FlaskForm):
 #             self.prime_category.choices = primary_cat
 #         if sub_cat:
 #             self.sub_category.choices = sub_cat
+class MultiCheckboxField(SelectMultipleField):
+    widget = widgets.ListWidget(prefix_label=False)
+    option_widget = widgets.CheckboxInput()
+
+class PreferenceForm(FlaskForm):
+    preferences = MultiCheckboxField('Primary', coerce=int, choices=[(1, 'one')], validators=[] )
+
+    submit = SubmitField('submit')

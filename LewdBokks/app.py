@@ -198,8 +198,7 @@ def insert_to_db():
         pass
     return "Received"
 
-
-@app.route('/lootBox')
+@app.route('/lootbox')
 def loot_box():
     return render_template("lootBox.html")
 

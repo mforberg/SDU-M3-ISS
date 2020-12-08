@@ -1,14 +1,18 @@
-from flask import Flask, request, render_template, redirect, url_for
+from flask import Flask, request, render_template, redirect, url_for, session
 from backend.db import *
 import json
 from forms import *
 import os
 from backend.database_connection import DatabaseConnection
+from flask_session import Session
+import redis
 
 secret_key = os.urandom(32)
 app = Flask(__name__)
 app.config['TEMPLATES_AUTO_RELOAD'] = True
-app.config['SECRET_KEY'] = secret_key
+app.secret_key = secret_key
+app.config['SESSION_TYPE'] = "filesystem"
+Session(app)
 dbc = DatabaseConnection().get_instance()
 
 
@@ -33,12 +37,12 @@ def index():
 def validate():
     error = None
     form = LoginForm()
-    print(request.method)
     if request.method == 'POST':
-        print(request.form)
         if request.form['username'] != 'peter' or request.form['password'] != 'pedigrew':
             error = 'Invalid'
         else:
+            
+            session['username'] = request.form['username']
             return redirect(url_for('index'))
     return render_template("login.html", error=error, form=form)
 
@@ -47,6 +51,11 @@ def validate():
 def login():
     form = LoginForm()
     return render_template('login.html', form=form)
+
+@app.route('/logout')
+def logout():
+   session.pop('username', None)
+   return redirect(url_for('index'))
 
 
 @app.route('/register')
@@ -120,6 +129,7 @@ def validate_registration_company():
             dbc.get_instance().register_company(company_name, url, username, password)
             return redirect(url_for('index'))
     return render_template("registerCompany.html", error=error, form=form)
+
 
 
 @app.route('/preferences/')

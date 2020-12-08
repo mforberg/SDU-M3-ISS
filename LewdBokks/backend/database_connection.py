@@ -116,3 +116,12 @@ class DatabaseConnection:
                               , (item_uuid, prime_category, sub_category, brand, color, price, style))
         self.__connection.commit()
 
+    def get_preferences(self, user_uuid: str) -> []:
+        self.__cursor.execute("SELECT * FROM preferences.user_preferences WHERE user_uuid = %s", (user_uuid, ))
+        temp = []
+        for item in self.__cursor.fetchall():
+            temp.append(item[1])
+        return temp
+
+
+

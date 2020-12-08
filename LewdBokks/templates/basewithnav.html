@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% set active_page = "coupons" %}
+{% block title %} Preferences {% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+{% set navigation_bar = [('/', 'index', 'Index', 'home'),
+                        ('/preferences', 'preferences', 'Preferences', 'file'),
+                        ('/coupons', 'coupons', 'Coupons', 'file'),
+                        ('/products', 'products', 'Products', 'shopping-cart')]-%} 
+
+{%set active_page = active_page | default('index')-%}
+<body>
+
+    <div id="container-fluid">
+        <div class="row">
+            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse sidebar-sticky">
+                <div class="sidebar-sticky pt-3">
+                    <ul class="nav flex-column">
+                        {% for href, id, caption, datfeather in navigation_bar %}
+                        <li class="nav-item">
+                        <a {% if id == active_page %} class="nav-link active" {%else%} class="nav-link" {%endif
+                        %} href="{{ href|e }}"><span data-feather="{{datfeather}}"></span>{{caption|e}}{% if id == active_page %}<span class="sr-only">(current)</span> {%endif%}</a>
+                        </li>
+                    {% endfor %}
+                    </ul>
+
+                </div>
+            </nav>
+
+            <div class="container">
+                {%block navcontent%}
+
+                {%endblock%}
+            </div>
+        </div>
+{% endblock %}

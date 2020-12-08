@@ -1,41 +1,91 @@
-{%extends "base.html"%}
-{%set active_page = "coupons"%}
-{%block title %} Preferences {%endblock%}
-{%block head%}
-    {{super()}}
-{%endblock%}
-{%block content%}
-<div class="row text-center">
-    <div class="col-sm-12">
-        <h1>Coupons</h1>
+{% extends "base.html" %}
+{% set active_page = "coupons" %}
+{% block title %} Preferences {% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+    <div class="row text-center">
+        <div class="col-sm-12">
+            <h1>Coupons</h1>
+        </div>
+
+    </div>
+    <div class="row bg-light prefrow">
+        <div class="row text-center">
+            <div class="col-sm-12">
+                <h2>Coupon Overview</h2>
+            </div>
+
+        </div>
+        <table style="width:100%">
+            <tr>
+                <th>ITEM UUID</th>
+                <th>MIN</th>
+                <th>MAX</th>
+            </tr>
+
+            {% if entries %}
+                {% for item in entries %}
+                    <tr>
+                        <td>{{ item[1] }}</td>
+                        <td>{{ item[2] }}</td>
+                        <td>{{ item[3] }}</td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+
+        </table>
+        <br>
+
+        <form action="/delcoupon/" method="POST">
+            {{ form.uuid_name }}
+            {{ form.submit_delete }}
+        </form>
     </div>
 
-</div>
-<div class="row prefrow">
-    <div id="sl">
-{#        {% for key, value in entries.items() %}
-        <div class="col-lg-4">
-            <h2>{{key}}</h2>
-            {% for val in value%}
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="{{val}}">
-                <label class="form-check-label" for="{{val}}">
-                    {{val}} </label>
+    <div class="row bg-light prefrow">
+        <div class="row text-center">
+            <div class="col-sm-12">
+                <h2>Add Coupon</h2>
+
+
+                <form action="/addcoupon/" method="post">
+                    <div class="form-group">
+                        <label for="primaryGroup">Primary Category</label><br>
+
+                        {{ addform.prime_category(class_="form-control") }}
+                    </div>
+                    <div class="form-group">
+                        <label for="subCategory">Secondary Category</label>
+                        {{ addform.sub_category(class_="form-control") }}
+                    </div>
+                    <div class="form-group">
+                        <label for="itemBrand">Enter a brand name</label>
+                        {{ addform.brand(class_="form-control") }}
+                    </div>
+                    <div class="form-group">
+                        <label for="itemColor">Enter item color</label>
+                        {{ addform.color(class_="form-control") }}
+                    </div>
+                    <div class="form-group">
+                        <label for="itemPrice">Enter item price</label>
+                        {{ addform.price(class_="form-control") }}
+                    </div>
+                    <div class="form-group">
+                        <label for="itemStyle">Enter item style</label>
+                        {{ addform.style(class_="form-control") }}
+                    </div>
+                    <div class="form-group">
+                        <label for="itemStyle">Min %</label>
+                        {{ addform.min_p(class_="form-control") }}
+                        <label for="itemStyle">Max %</label>
+                        {{ addform.max_p(class_="form-control") }}
+                    </div>
+                    {{ addform.submit_add(class_="btn btn-primary mb-4") }}
+                </form>
             </div>
-            {%endfor%}#}
         </div>
     </div>
-    {#{% else %}
-    <li><em>Unbelievable. No entries so far</em>
-        {% endfor %}#}
-</div>
-
-<div class="row prefrow">
-    <div class="col-md-4"></div>
-    <div class="col-md-3 text-center">
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Save</button>
-    </div>
-</div>
-</div>
-<script type="text/javascript" src="{{ url_for('static', filename = 'featherstyle.js') }}"></script>
-{%endblock%}
+    <script type="text/javascript" src="{{ url_for('static', filename = 'featherstyle.js') }}"></script>
+{% endblock %}

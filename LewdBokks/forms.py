@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import PasswordField, StringField, SubmitField, validators, BooleanField
+from wtforms import PasswordField, StringField, SubmitField, validators, BooleanField, SelectField, IntegerField
 from wtforms.validators import DataRequired, Length
 
 
@@ -19,8 +19,30 @@ class LoginForm(FlaskForm):
 
 
 class DeleteCoupon(FlaskForm):
+
     uuid_name = StringField('uuid_name', validators=[DataRequired()])
     submit_delete = SubmitField('Delete')
+
+
+class AddCoupon(FlaskForm):
+
+    prime_category = SelectField(choices=['Mens', 'Women', 'Children'])
+    sub_category = SelectField(choices=['None', ])
+
+    brand = StringField(validators=[DataRequired()])
+    color = StringField(validators=[DataRequired()])
+    price = StringField(validators=[DataRequired()])
+    style = StringField(validators=[DataRequired()])
+    min_p = IntegerField(validators=[DataRequired()])
+    max_p = IntegerField(validators=[DataRequired()])
+    submit_add = SubmitField('Add')
+
+    def __init__(self, primary_cat: list, sub_cat: list, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if primary_cat:
+            self.prime_category.choices = primary_cat
+        if sub_cat:
+            self.sub_category.choices = sub_cat
 
 
 class RegisterPersonForm(FlaskForm):

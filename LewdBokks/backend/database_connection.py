@@ -1,5 +1,5 @@
 import psycopg2
-
+import uuid
 from .db_config import *
 
 
@@ -54,3 +54,36 @@ class DatabaseConnection:
     def delete_coupon_by_uuids(self, business_uuid, item_uuid):
         self.__cursor.execute("DELETE FROM coupons.coupon WHERE business_uuid = %s AND item_uuid = %s"
                               , (business_uuid, item_uuid,))
+        self.__connection.commit()
+
+    def get_distinct_primary_categories(self) -> tuple:
+        self.__cursor.execute("select distinct primary_category from products.items")
+        primary_categories = []
+        for item in self.__cursor.fetchall():
+            primary_categories.append(item[0])
+        self.__cursor.execute("select distinct sub_category from products.items")
+        sub_categories = []
+        for item in self.__cursor.fetchall():
+            sub_categories.append(item[0])
+        primary_categories.sort()
+        sub_categories.sort()
+        tup = (primary_categories, sub_categories)
+        return tup
+
+    def add_coupon(self, b_uuid, coupon_data):
+
+        item_uuid = str(uuid.uuid4())
+        prime_category = coupon_data['prime_category']
+        sub_category = coupon_data['sub_category']
+        brand = coupon_data['brand']
+        color = coupon_data['color']
+        price = coupon_data['price']
+        style = coupon_data['style']
+        min_p = coupon_data['min_p']
+        max_p = coupon_data['max_p']
+
+        self.__cursor.execute("INSERT INTO coupons.coupon VALUES (%s, %s, %s, %s)", (b_uuid, item_uuid, min_p, max_p,))
+        self.__cursor.execute("INSERT INTO products.items VALUES (%s, %s, %s, %s, %s, %s, %s)"
+                              , (item_uuid, prime_category, sub_category, brand, color, price, style))
+        self.__connection.commit()
+

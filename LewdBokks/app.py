@@ -1,7 +1,7 @@
 from flask import Flask, request, render_template, redirect, url_for
 from backend.db import *
 import json
-from forms import LoginForm
+from forms import *
 import os
 from backend.database_connection import DatabaseConnection
 
@@ -46,14 +46,48 @@ def validate():
 @app.route('/login')
 def login():
     form = LoginForm()
-    if form.validate_on_submit():
-        return render_template('index.html')
     return render_template('login.html', form=form)
 
 
 @app.route('/register')
 def register():
-    return render_template('register.html')
+    form = RadioChoiceForm()
+    return render_template('register.html', form=form)
+
+
+@app.route('/validateChoice', methods=["POST"])
+def validatechoice():
+    form = RadioChoiceForm()
+    print(request.form)
+    if request.form['radio'] == 'company':
+        return redirect(url_for('company'))
+    else:
+        return redirect(url_for('person'))
+
+
+@app.route('/register/person', methods=["POST", "GET"])
+def person():
+    form = RegisterPersonForm()
+    return render_template('registerPerson.html', form=form)
+
+
+@app.route('/register/company', methods=["POST", "GET"])
+def company():
+    form = RegisterCompanyForm()
+    return render_template('registerCompany.html', form=form)
+
+
+@app.route('validateRegistration', methods=["POST", "GET"])
+def validateregistration():
+
+
+# @app.route('/register/X')
+# def registerx():
+#     print(request)
+#     x = request.form["person"]
+#     if x:
+#         print("dakpo")
+#     return render_template('register.html')
 
 
 @app.route('/preferences/')
@@ -76,7 +110,6 @@ def coupons():
     records = dbc.get_instance().get_coupons_by_uuid(uuid)
 
     return render_template("coupons.html", entries=records)
-
 
 
 @app.route('/products/')

@@ -12,11 +12,10 @@
     </div>
     <div class="row prefrow">
             <div class="col-lg-4">
-
                 <h2> Primary </h2>
-                {% for primary in entries[0] %}
+                {% for primary, value in prime_entries %}
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="{{ primary }}">
+                        <input class="form-check-input" type="checkbox" value="" id="{{ primary }}" {% if value %} checked {% endifd %}>
                         <label class="form-check-label" for="{{ primary }}">
                             {{ primary }} </label>
                     </div>
@@ -24,9 +23,9 @@
             </div>
             <div class="col-lg-4">
                 <h2> Secondary </h2>
-                {% for secondary in entries[1] %}
+                {% for secondary, value in secondary_entries %}
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="{{ secondary }}">
+                        <input class="form-check-input" type="checkbox" value="" id="{{ secondary }} {% if value %} checked {% endifd %}">
                         <label class="form-check-label" for="{{ secondary }}">
                             {{ secondary }} </label>
                     </div>

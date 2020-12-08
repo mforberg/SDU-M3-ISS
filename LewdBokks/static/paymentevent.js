@@ -19,10 +19,12 @@ $(document).ready(function(){
   });
 
 
-  function checkph(texy){
+  function checkph(texy, valu){
       var phoneNumber = $(texy).val()
         if(/^\d+$/.test(phoneNumber) && phoneNumber.length == 8){
             console.log(lootboxtype)
+            var val = null;
+            console.log(val)
             $('#payment-modal-mp').modal('hide'); 
         }
     console.log($(texy).val().length)

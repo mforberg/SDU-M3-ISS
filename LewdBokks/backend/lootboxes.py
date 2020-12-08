@@ -40,6 +40,11 @@ class LootBox:
     def __set_probabilities(self, collected_items):
         """TODO: Once items has been collected, they need to have assigned random probabilities between their min &
         max """
+        # min = 1
+        # max = 5
+        # loottype = "common"
+        # if loottype == "common":
+        #     print()
         return 0
 
     def __draw_items(self, probabilitiy_assigned_items):

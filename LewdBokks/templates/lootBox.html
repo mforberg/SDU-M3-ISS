@@ -21,9 +21,8 @@
       <div class="card-body">
         <ul class="list-unstyled mt-3 mb-4">
           <li>25 DKK</li>
-          <li>Ten percent off: 80% chance</li>
-          <li>Fifteen percent off: 17.5% chance</li>
-          <li>Twenty percent off: 2.5% chance</li>
+          <li>Normal discount: 80% chance</li>
+          <li>Great discount: 20% chance</li>
         </ul>
         {%if session['username']%}
         <button type="button" class="btn btn-lg btn-block btn-primary" data-toggle="modal"
@@ -44,9 +43,8 @@
       <div class="card-body">
         <ul class="list-unstyled mt-3 mb-4">
           <li>40 DKK</li>
-          <li>Ten percent off: 70% chance</li>
-          <li>Fifteen percent off: 25% chance</li>
-          <li>Twenty percent off: 5% chance</li>
+          <li>Normal discount: 70% chance</li>
+          <li>Great discount: 30% chance</li>
         </ul>
         {%if session['username']%}
         <button type="button" class="btn btn-lg btn-block btn-primary" data-toggle="modal"
@@ -65,9 +63,8 @@
       <div class="card-body">
         <ul class="list-unstyled mt-3 mb-4">
           <li>55 DKK</li>
-          <li>Ten percent off: 60% chance</li>
-          <li>Fifteen percent off: 25% chance</li>
-          <li>Twenty percent off: 15% chance</li>
+          <li>Normal discount: 60% chance</li>
+          <li>Great discount: 40% chance</li>
         </ul>
         {%if session['username']%}
         <button type="button" class="btn btn-lg btn-block btn-primary" data-toggle="modal"
@@ -150,7 +147,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" onclick="checkph(phonenumber)" id="pay-mp" class="btn btn-primary">Pay</button>
+          <button type="button" onclick="checkph(phonenumber, valu)" id="pay-mp" class="btn btn-primary">Pay</button>
         </div>
       </div>
     </div>

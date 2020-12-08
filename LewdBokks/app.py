@@ -96,7 +96,7 @@ def validate_registration_person():
         else:
             dbc.get_instance().register_person(username, password, email)
             return redirect(url_for('index'))
-    return render_template("registerPerson.html", error=error, form=form)
+    return render_template("registerPerson.html", error=error, form=form) 
 
 
 @app.route('/validateRegistrationCompany', methods=["POST", "GET"])

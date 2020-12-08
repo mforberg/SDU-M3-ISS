@@ -2,16 +2,17 @@
 {% set active_page = "coupons" %}
 {% block title %} Preferences {% endblock %}
 {% block head %}
-    {{ super() }}
+{{ super() }}
 {% endblock %}
 {% block content %}
 {% set navigation_bar = [('/', 'index', 'Index', 'home'),
-                        ('/preferences', 'preferences', 'Preferences', 'file'),
+                       ('/preferences', 'preferences', 'Preferences', 'file'),
                         ('/coupons', 'coupons', 'Coupons', 'file'),
                         ('/products', 'products', 'Products', 'shopping-cart'),
                         ('/lootbox', 'lootbox', 'Lootbox', 'gift')]-%}
 
 {%set active_page = active_page | default('index')-%}
+
 <body>
 
     <div id="container-fluid">
@@ -20,11 +21,35 @@
                 <div class="sidebar-sticky pt-3">
                     <ul class="nav flex-column">
                         {% for href, id, caption, datfeather in navigation_bar %}
-                        <li class="nav-item">
-                        <a {% if id == active_page %} class="nav-link active" {%else%} class="nav-link" {%endif
-                        %} href="{{ href|e }}"><span data-feather="{{datfeather}}"></span>{{caption|e}}{% if id == active_page %}<span class="sr-only">(current)</span> {%endif%}</a>
-                        </li>
-                    {% endfor %}
+                            {% if id == 'preferences' %}
+                                {% if session['customer'] %}
+                                    <li class="nav-item">
+                                    <a {% if id == active_page %} class="nav-link active" {%else%} class="nav-link" {%endif%} href="{{ href|e }}">
+                                    <span data-feather="{{datfeather}}"></span>{{caption|e}}
+                                    {% if id == active_page %}
+                                        <span class="sr-only">(current)</span> 
+                                    {%endif%}</a>
+                                    </li>
+                                {%endif%}
+                            {%elif id == 'coupons'%}
+                                {%if session['business']%}
+                                <li class="nav-item">
+                                    <a {% if id == active_page %} class="nav-link active" {%else%} class="nav-link" {%endif
+                                    %} href="{{ href|e }}"><span
+                                    data-feather="{{datfeather}}"></span>{{caption|e}}{% if id == active_page %}<span
+                                    class="sr-only">(current)</span> {%endif%}</a>
+                                    </li>
+                                {%else%}
+                                {%endif%}
+                            {%else%}
+                                <li class="nav-item">
+                                <a {% if id == active_page %} class="nav-link active" {%else%} class="nav-link" {%endif
+                                %} href="{{ href|e }}"><span
+                                    data-feather="{{datfeather}}"></span>{{caption|e}}{% if id == active_page %}<span
+                                    class="sr-only">(current)</span> {%endif%}</a>
+                                </li>
+                            {%endif%}
+                        {% endfor %}
                     </ul>
 
                 </div>
@@ -36,4 +61,4 @@
                 {%endblock%}
             </div>
         </div>
-{% endblock %}
+        {% endblock %}

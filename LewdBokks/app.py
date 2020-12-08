@@ -41,7 +41,8 @@ def validate():
                 if request.form['password'] == result['BUSINESS'][2]:
                     session['uuid'] = result['BUSINESS'][0]
                     session['username'] = result['BUSINESS'][1]
-                    session['customer'] = True
+                    session['customer'] = False
+                    session['business'] = True
                     return redirect(session['referer'])
                 else:
                     error = 'Invalid'
@@ -57,9 +58,18 @@ def login():
 
 @app.route('/logout')
 def logout():
-    session.pop('username', None)
+    session.pop('username')
+    session.pop('uuid')
+    session.pop('customer')
+    if 'business' in session:
+        session.pop('business')
     return redirect(url_for('index'))
 
+@app.route('/emergencysessionclear')
+def nukeem():
+   session.clear()
+   [session.pop(key) for key in list(session.keys())]
+   return redirect(url_for('index'))
 
 @app.route('/register')
 def register():
@@ -197,7 +207,15 @@ def add_coupon():
 
 @app.route('/products/')
 def products():
-    return render_template("products.html")
+    uuid = dbc.get_uuid_from_username(session["username"])[0]
+    pref_list = dbc.get_preferences(uuid)
+
+    uuid_list = dbc.get_products_given_preferences(pref_list)
+    uber_banger_list_of_uuid = []
+    for uuid in uuid_list:
+        for listuuid in uuid:
+            uber_banger_list_of_uuid.append(listuuid[0])
+    return render_template("products.html", uuids=uber_banger_list_of_uuid)
 
 
 @app.route('/lootbox', methods=['POST', 'GET'])

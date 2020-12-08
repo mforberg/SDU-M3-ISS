@@ -158,3 +158,15 @@ class DatabaseConnection:
         for item in pref_dict:
             self.__cursor.execute("INSERT INTO preferences.user_preferences VALUES (%s, %s)", (uuid, item))
         self.__connection.commit()
+        
+    def get_products_given_preferences(self, preferences):
+        product_list = []
+        row_list = []
+        for preference in preferences:
+            self.__cursor.execute("SELECT uuid FROM products.items WHERE sub_category = '{}'".format(preference))
+            row_list.append(self.__cursor.fetchall())
+        
+        for row in row_list:
+            product_list.append(row)
+            
+        return product_list

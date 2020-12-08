@@ -10,50 +10,6 @@
         <h1>Preferences</h1>
     </div>
 </div>
-<!-- <div class="row">
-    <div class="col">
-        <form action="/update_prefs", method="POST">
-            <table>
-                <thead>Primary</thead>
-                <tbody>
-                    {% for file in form.preferences %}
-                    <tr>
-                        <td>
-                            <label for="{{ file.id }}">
-                                {{ file.label.text }}
-                            </label>
-                        </td>
-                        <td>
-                            {{ file }}
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-    </div>
-    <div class="col">
-        <table>
-            <thead>Secondary</thead>
-            <tbody>
-                {% for file in form2.preferences %}
-                <tr>
-                    <td>
-                        <label for="{{ file.id }}">
-                            {{ file.label.text }}
-                        </label>
-                    </td>
-                    <td>
-                        {{ file }}
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        {{form2.submit}}
-    </form>
-    </div>
-</div> -->
-
     <div class="row prefrow">
         <form action="/update_prefs" method="post" enctype="multipart/form-data">
             <div class="row">

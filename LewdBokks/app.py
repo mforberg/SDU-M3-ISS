@@ -136,35 +136,22 @@ def validate_registration_company():
 def preferences():
     unique_categories = dbc.get_distinct_categories()
     uuid = dbc.get_uuid_from_username(session["username"])[0]
-    print(uuid)
     pref_list = dbc.get_preferences(uuid)
     prime_entries = {}
     secondary_entries = {}
-    preferences_list = []
-    preferences_list2 = []
-    form = PreferenceForm()
-    form2 = PreferenceForm()
-    i = 0
+
     for category in unique_categories[0]:
         if category in pref_list:
             prime_entries[category] = True
-            preferences_list.append((i, category))
         else:
             prime_entries[category] = False
-            preferences_list.append((i, category))
-    j = 0
     for category in unique_categories[1]:
         if category in pref_list:
             secondary_entries[category] = True
-            preferences_list2.append((j, category))
-
         else:
-            preferences_list2.append((j, category))
             secondary_entries[category] = False
 
-    form.preferences.choices = preferences_list
-    form2.preferences.choices = preferences_list2
-    return render_template("preferences.html", form = form, form2=form2, prime_entries=prime_entries, secondary_entries=secondary_entries)
+    return render_template("preferences.html", prime_entries=prime_entries, secondary_entries=secondary_entries)
 
 
 @app.route('/coupons/', methods=['GET', 'POST'])

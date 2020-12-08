@@ -1,41 +1,60 @@
-{%extends "base.html"%}
-{%set active_page = "preferences"%}
-{%block title %} Preferences {%endblock%}
-{%block head%}
-    {{super()}}
-{%endblock%}
-{%block content%}
-<div class="row text-center">
-    <div class="col-sm-12">
-        <h1>Preferences</h1>
-    </div>
-
-</div>
-<div class="row prefrow">
-    <div id="sl">
-        {% for key, value in entries.items() %}
-        <div class="col-lg-4">
-            <h2>{{key}}</h2>
-            {% for val in value%}
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="{{val}}">
-                <label class="form-check-label" for="{{val}}">
-                    {{val}} </label>
-            </div>
-            {%endfor%}
+{% extends "basewithnav.html" %}
+{% set active_page = "preferences" %}
+{% block title %} Preferences {% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block navcontent %}
+    <div class="row text-center">
+        <div class="col-sm-12">
+            <h1>Preferences</h1>
         </div>
     </div>
-    {% else %}
-    <li><em>Unbelievable. No entries so far</em>
-        {% endfor %}
-</div>
-
-<div class="row prefrow">
-    <div class="col-md-4"></div>
-    <div class="col-md-3 text-center">
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Save</button>
+    <div class="row prefrow">
+            <div class="col-lg-4">
+                <h2> Primary </h2>
+                {% for primary, value in prime_entries %}
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="{{ primary }}" {% if value %} checked {% endif %}>
+                        <label class="form-check-label" for="{{ primary }}">
+                            {{ primary }} </label>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="col-lg-4">
+                <h2> Secondary </h2>
+                {% for secondary, value in secondary_entries %}
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="{{ secondary }} {% if value %} checked {% endif %}">
+                        <label class="form-check-label" for="{{ secondary }}">
+                            {{ secondary }} </label>
+                    </div>
+                {% endfor %}
+            </div>
+        {#    <div id="sl">#}
+        {#        {% for key, value in entries.items() %}#}
+        {#        <div class="col-lg-4">#}
+        {#            <h2>{{key}}</h2>#}
+        {#            {% for val in value%}#}
+        {#            <div class="form-check">#}
+        {#                <input class="form-check-input" type="checkbox" value="" id="{{val}}">#}
+        {#                <label class="form-check-label" for="{{val}}">#}
+        {#                    {{val}} </label>#}
+        {#            </div>#}
+        {#            {%endfor%}#}
+        {#        </div>#}
+        {#    </div>#}
+        {#    {% else %}#}
+        {#    <li><em>Unbelievable. No entries so far</em>#}
+        {#        {% endfor %}#}
     </div>
-</div>
-</div>
-<script type="text/javascript" src="{{ url_for('static', filename = 'featherstyle.js') }}"></script>
-{%endblock%}
+
+    <div class="row prefrow">
+        <div class="col-md-4"></div>
+        <div class="col-md-3 text-center">
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Save</button>
+        </div>
+    </div>
+    </div>
+    <script type="text/javascript" src="{{ url_for('static', filename = 'featherstyle.js') }}"></script>
+{% endblock %}

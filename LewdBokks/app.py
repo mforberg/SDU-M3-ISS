@@ -5,7 +5,6 @@ from forms import *
 import os
 from backend.database_connection import DatabaseConnection
 from flask_session import Session
-import redis
 
 secret_key = os.urandom(32)
 app = Flask(__name__)
@@ -35,30 +34,58 @@ def index():
 
 @app.route('/validate', methods=['GET', 'POST'])
 def validate():
+    CUSTOMER = 4
+
     error = None
     form = LoginForm()
     if request.method == 'POST':
-        if request.form['username'] != 'peter' or request.form['password'] != 'pedigrew':
-            error = 'Invalid'
-        else:
-            session['username'] = request.form['username']
+        result = dbc.super_secure_credentials(request.form['username'])
+        if result:
+            if get_user_type(result) == CUSTOMER:
+                if request.form['password'] == result[0][2]:
+                    session['username'] = result[0][1]
+                    session['uuid'] = result[0][0]
+                    session['customer'] = True
+                    return redirect(session['referer'])
+                else:
+                    error = 'Invalid'
+            else:
+                if request.form['password'] == result[0][4]:
+                    session['username'] = result[0][1]
+                    session['uuid'] = result[0][0]
+                    session['customer'] = False
+                    return redirect(session['referer'])
+                else:
+                    error = 'Invalid'
 
-            if session["referer"]: 
-                return redirect(session["referer"])
+        # if request.form['username'] != 'peter' or request.form['password'] != 'pedigrew':
+        #     error = 'Invalid'
+        # else:
+        #
+        #     session['username'] = request.form['username']
+        #     return redirect(url_for('index'))
     return render_template("login.html", error=error, form=form)
+
+
+def get_user_type(result):
+    """Amazing code, a user is customer if there is 4 columns in the DB result, and business user if 5 columns"""
+    if len(result[0]) == 4:
+        return 4
+    if len(result[0]) == 5:
+        return 5
 
 
 @app.route('/login')
 def login():
     form = LoginForm()
-    session["referer"] = request.environ["HTTP_REFERER"]
-
+    session['referer'] = request.environ['HTTP_REFERER']
     return render_template('login.html', form=form)
+
 
 @app.route('/logout')
 def logout():
-   session.pop('username', None)
-   return redirect(url_for('index'))
+    session.pop('username', None)
+    return redirect(url_for('index'))
 
 
 @app.route('/register')
@@ -108,7 +135,7 @@ def validate_registration_person():
         else:
             dbc.get_instance().register_person(username, password, email)
             return redirect(url_for('index'))
-    return render_template("registerPerson.html", error=error, form=form) 
+    return render_template("registerPerson.html", error=error, form=form)
 
 
 @app.route('/validateRegistrationCompany', methods=["POST", "GET"])
@@ -134,28 +161,33 @@ def validate_registration_company():
     return render_template("registerCompany.html", error=error, form=form)
 
 
-
 @app.route('/preferences/')
 def preferences():
-    entries = {}
-    temp = get_db()
-    dbs = temp.list_collection_names()
-    for datab in dbs:
-        collec = temp[datab]
-        listy = []
-        for x in collec.find_one():
-            listy.append(x)
-        entries[datab] = listy
-    return render_template("preferences.html", entries=entries)
+    unique_categories = dbc.get_distinct_categories()
+    uuid = dbc.get_uuid_from_username(session["username"])
+    pref_list = dbc.get_preferences(uuid)
+    prime_entries = {}
+    secondary_entries = {}
+    for category in unique_categories[0]:
+        if category in pref_list:
+            prime_entries[category] = True
+        else:
+            prime_entries[category] = False
+    for category in unique_categories[1]:
+        if category in pref_list:
+            secondary_entries[category] = True
+        else:
+            secondary_entries[category] = False
+    return render_template("preferences.html", prime_entries=prime_entries, secondary_entries=secondary_entries)
 
 
-#b_uuid = 'b3089a02-d258-4ba2-a90a-3752432e2892'
+# b_uuid = 'b3089a02-d258-4ba2-a90a-3752432e2892'
 
 
 @app.route('/coupons/', methods=['GET', 'POST'])
 def coupons():
     b_uuid = 'b3089a02-d258-4ba2-a90a-3752432e2892'
-    categories = dbc.get_distinct_primary_categories()
+    categories = dbc.get_distinct_categories()
     form2 = AddCoupon(primary_cat=categories[0], sub_cat=categories[1])
 
     records = dbc.get_coupons_by_uuid(b_uuid)
@@ -187,6 +219,7 @@ def add_coupon():
             dbc.add_coupon(b_uuid, request.form)
             return redirect(url_for('coupons'))
 
+
 @app.route('/products/')
 def products():
     return render_template("products.html")
@@ -200,6 +233,7 @@ def insert_to_db():
         # TODO: fix this ^ is original line, but con no work
         pass
     return "Received"
+
 
 @app.route('/lootbox')
 def loot_box():

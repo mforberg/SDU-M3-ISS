@@ -85,7 +85,7 @@ class DatabaseConnection:
                               , (business_uuid, item_uuid,))
         self.__connection.commit()
 
-    def get_distinct_primary_categories(self) -> tuple:
+    def get_distinct_categories(self) -> tuple:
         self.__cursor.execute("select distinct primary_category from products.items")
         primary_categories = []
         for item in self.__cursor.fetchall():
@@ -116,3 +116,19 @@ class DatabaseConnection:
                               , (item_uuid, prime_category, sub_category, brand, color, price, style))
         self.__connection.commit()
 
+    def get_preferences(self, user_uuid: str) -> []:
+        self.__cursor.execute("SELECT * FROM preferences.user_preferences WHERE user_uuid = %s", (user_uuid, ))
+        temp = []
+        for item in self.__cursor.fetchall():
+            temp.append(item[1])
+        return temp
+
+    def super_secure_credentials(self, username: str):
+        business = self.__cursor.execute("SELECT * FROM business.users WHERE username = %s", (username, ))
+        customer = self.__cursor.execute("SELECT * FROM customers.users WHERE username = %s", (username, ))
+        result = self.__cursor.fetchall()
+        return result
+
+    def get_uuid_from_username(self, username):
+        self.__cursor.execute("SELECT uuid FROM customers.users WHERE username = %s", (username,))
+        return self.__cursor.fetchall()

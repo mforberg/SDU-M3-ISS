@@ -2,14 +2,58 @@
 {% set active_page = "preferences" %}
 {% block title %} Preferences {% endblock %}
 {% block head %}
-    {{ super() }}
+{{ super() }}
 {% endblock %}
 {% block navcontent %}
-    <div class="row text-center">
-        <div class="col-sm-12">
-            <h1>Preferences</h1>
-        </div>
+<div class="row text-center">
+    <div class="col-sm-12">
+        <h1>Preferences</h1>
     </div>
+</div>
+<!-- <div class="row">
+    <div class="col">
+        <form action="/update_prefs", method="POST">
+            <table>
+                <thead>Primary</thead>
+                <tbody>
+                    {% for file in form.preferences %}
+                    <tr>
+                        <td>
+                            <label for="{{ file.id }}">
+                                {{ file.label.text }}
+                            </label>
+                        </td>
+                        <td>
+                            {{ file }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+    </div>
+    <div class="col">
+        <table>
+            <thead>Secondary</thead>
+            <tbody>
+                {% for file in form2.preferences %}
+                <tr>
+                    <td>
+                        <label for="{{ file.id }}">
+                            {{ file.label.text }}
+                        </label>
+                    </td>
+                    <td>
+                        {{ file }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {{form2.submit}}
+    </form>
+    </div>
+</div> -->
+
     <div class="row prefrow">
         <form action="/update_prefs" method="post" enctype="multipart/form-data">
             <div class="row">
@@ -17,7 +61,7 @@
                     <h2> Primary </h2>
                     {% for primary in prime_entries %}
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="{{ primary }}"
+                            <input class="form-check-input" type="checkbox" name="{{primary}}" id="{{ primary }}"
                                     {% if prime_entries[primary] %} checked {% endif %}>
                             <label class="form-check-label" for="{{ primary }}">
                                 {{ primary }} </label>
@@ -28,7 +72,7 @@
                     <h2> Secondary </h2>
                     {% for secondary in secondary_entries %}
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="{{ secondary }}"
+                            <input class="form-check-input" type="checkbox" name="{{secondary}}" id="{{ secondary }}"
                                     {% if secondary_entries[secondary] %} checked {% endif %}>
                             <label class="form-check-label" for="{{ secondary }}">
                                 {{ secondary }} </label>
@@ -36,16 +80,12 @@
                     {% endfor %}
                 </div>
             </div>
-            <div class="row prefrow">
-                <div class="col-md-4"></div>
-                <div class="col-md-6 text-center">
-                    <button class="btn btn-lg btn-primary btn-block" type="submit">submit</button>
-                </div>
-            </div>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">submit</button>
+
         </form>
     </div>
 
 
-    </div>
-    <script type="text/javascript" src="{{ url_for('static', filename = 'featherstyle.js') }}"></script>
+</div>
+<script type="text/javascript" src="{{ url_for('static', filename = 'featherstyle.js') }}"></script>
 {% endblock %}

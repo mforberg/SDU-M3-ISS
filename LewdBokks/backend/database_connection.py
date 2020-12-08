@@ -61,6 +61,10 @@ class DatabaseConnection:
         self.__cursor.execute("select customers.users.email from customers.users where email = %s", (email,))
         return self.__cursor.fetchall()
 
+    def get_company_names(self, company_name):
+        self.__cursor.execute("select business.users.company_name from business.users where company_name = %s", (company_name,))
+        return self.__cursor.fetchall()
+
     def register_person(self, username, password, email):
         id = str(uuid.uuid4())
         self.__cursor.execute("INSERT INTO customers.users VALUES (%s, %s, %s, %s)", (id, username, password, email))
@@ -68,5 +72,9 @@ class DatabaseConnection:
 
     def register_company(self, company_name, website, username, password):
         id = str(uuid.uuid4())
+        print(company_name)
+        print(website)
+        print(username)
+        print(password)
         self.__cursor.execute("INSERT INTO business.users VALUES (%s, %s, %s, %s, %s)", (id, company_name, website, username, password))
         self.__connection.commit()

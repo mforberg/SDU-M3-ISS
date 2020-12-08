@@ -102,21 +102,22 @@ def validate_registration_person():
 @app.route('/validateRegistrationCompany', methods=["POST", "GET"])
 def validate_registration_company():
     error = None
-    form = RegisterPersonForm()
+    form = RegisterCompanyForm()
     if request.method == 'POST':
-        comanyname = request.form['companyname']
+        username = request.form['username']
+        company_name = request.form['companyname']
+        url = request.form['websiteurl']
         password = request.form['password']
-        email = request.form['email']
         username_dict = dbc.get_instance().get_user_names(username)
-        email_dict = dbc.get_instance().get_emails(email)
+        company_name_dict = dbc.get_instance().get_company_names(company_name)
         if len(username_dict) > 0:
             error = 'username taken'
-        elif len(email_dict) > 0:
-            error = 'email taken'
+        elif len(company_name_dict) > 0:
+            error = 'company name taken'
         elif password != request.form['confirm']:
             error = 'Passwords does not match'
         else:
-            dbc.get_instance().register_person(comanyname, password, email)
+            dbc.get_instance().register_company(company_name, url, username, password)
             return redirect(url_for('index'))
     return render_template("registerCompany.html", error=error, form=form)
 

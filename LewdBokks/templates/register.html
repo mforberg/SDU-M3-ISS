@@ -9,13 +9,13 @@
 
 {% block content %}
     <div id="chooseDiv">
-        <form id="chooseForm" onsubmit=f()>
+        <form id="chooseForm" onsubmit="f()">
             <input type="radio" id="Person" name="choosePositionRB" value="person" checked="checked">
             <label for="Person">Person</label><br>
             <input type="radio" id="Company" name="choosePositionRB" value="company">
             <label for="Company">Company</label><br>
+            <input type="submit" value="Continue">
         </form>
-        <input type="submit" value="Continue">
     </div>
 
     <script type="text/javascript" src="{{ url_for('static', filename = 'featherstyle.js') }}"></script>

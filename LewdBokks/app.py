@@ -34,45 +34,28 @@ def index():
 
 @app.route('/validate', methods=['GET', 'POST'])
 def validate():
-    CUSTOMER = 4
-
     error = None
     form = LoginForm()
     if request.method == 'POST':
         result = dbc.super_secure_credentials(request.form['username'])
         if result:
-            if get_user_type(result) == CUSTOMER:
-                if request.form['password'] == result[0][2]:
-                    session['username'] = result[0][1]
-                    session['uuid'] = result[0][0]
+            if 'CUSTOMER' in result:
+                if request.form['password'] == result['CUSTOMER'][2]:
+                    session['uuid'] = result['CUSTOMER'][0]
+                    session['username'] = result['CUSTOMER'][1]
                     session['customer'] = True
                     return redirect(session['referer'])
                 else:
                     error = 'Invalid'
-            else:
-                if request.form['password'] == result[0][4]:
-                    session['username'] = result[0][1]
-                    session['uuid'] = result[0][0]
-                    session['customer'] = False
+            elif 'BUSINESS' in result:
+                if request.form['password'] == result['BUSINESS'][2]:
+                    session['uuid'] = result['BUSINESS'][0]
+                    session['username'] = result['BUSINESS'][1]
+                    session['customer'] = True
                     return redirect(session['referer'])
                 else:
                     error = 'Invalid'
-
-        # if request.form['username'] != 'peter' or request.form['password'] != 'pedigrew':
-        #     error = 'Invalid'
-        # else:
-        #
-        #     session['username'] = request.form['username']
-        #     return redirect(url_for('index'))
     return render_template("login.html", error=error, form=form)
-
-
-def get_user_type(result):
-    """Amazing code, a user is customer if there is 4 columns in the DB result, and business user if 5 columns"""
-    if len(result[0]) == 4:
-        return 4
-    if len(result[0]) == 5:
-        return 5
 
 
 @app.route('/login')
@@ -186,25 +169,25 @@ def preferences():
 
 @app.route('/coupons/', methods=['GET', 'POST'])
 def coupons():
-    b_uuid = 'b3089a02-d258-4ba2-a90a-3752432e2892'
+    if 'uuid' in session:
+        b_uuid = session['uuid']
+    else:
+        raise Exception("Oof")
     categories = dbc.get_distinct_categories()
+    form = DeleteCoupon()
     form2 = AddCoupon(primary_cat=categories[0], sub_cat=categories[1])
-
     records = dbc.get_coupons_by_uuid(b_uuid)
     error = None
-    form = DeleteCoupon()
-    # if request.method == "POST":
-    #     if request.form['uuid_name']:
-    #         print(b_uuid)
-    #         print(request.form['uuid_name'])
-    #         dbc.delete_coupon_by_uuids(b_uuid, request.form['uuid_name'])
-    #         return redirect(url_for('coupons'))
+
     return render_template("coupons.html", entries=records, form=form, addform=form2, error=error)
 
 
 @app.route('/delcoupon/', methods=['POST'])
 def del_coupon():
-    b_uuid = 'b3089a02-d258-4ba2-a90a-3752432e2892'
+    if 'uuid' in session:
+        b_uuid = session['uuid']
+    else:
+        raise Exception("Oof")
     if request.method == "POST":
         if request.form['uuid_name']:
             dbc.delete_coupon_by_uuids(b_uuid, request.form['uuid_name'])
@@ -213,7 +196,10 @@ def del_coupon():
 
 @app.route('/addcoupon/', methods=['POST'])
 def add_coupon():
-    b_uuid = 'b3089a02-d258-4ba2-a90a-3752432e2892'
+    if 'uuid' in session:
+        b_uuid = session['uuid']
+    else:
+        raise Exception("Oof")
     if request.method == "POST":
         if request.form['price']:
             dbc.add_coupon(b_uuid, request.form)

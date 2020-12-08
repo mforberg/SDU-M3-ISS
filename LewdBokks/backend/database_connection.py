@@ -1,12 +1,11 @@
 import uuid
 
 import psycopg2
-import uuid
+
 from .db_config import *
 
 
 class DatabaseConnection:
-
     __instance__ = None
     __connection = None
     __cursor = None
@@ -54,7 +53,9 @@ class DatabaseConnection:
         return self.__cursor.fetchall()
 
     def get_user_names(self, username):
-        self.__cursor.execute("select business.users.username from business.users where username = %s union all select customers.users.username from customers.users where username = %s", (username, username))
+        self.__cursor.execute(
+            "select business.users.username from business.users where username = %s union all select customers.users.username from customers.users where username = %s",
+            (username, username))
         return self.__cursor.fetchall()
 
     def get_emails(self, email):
@@ -62,7 +63,8 @@ class DatabaseConnection:
         return self.__cursor.fetchall()
 
     def get_company_names(self, company_name):
-        self.__cursor.execute("select business.users.company_name from business.users where company_name = %s", (company_name,))
+        self.__cursor.execute("select business.users.company_name from business.users where company_name = %s",
+                              (company_name,))
         return self.__cursor.fetchall()
 
     def register_person(self, username, password, email):
@@ -76,9 +78,9 @@ class DatabaseConnection:
         print(website)
         print(username)
         print(password)
-        self.__cursor.execute("INSERT INTO business.users VALUES (%s, %s, %s, %s, %s)", (id, company_name, website, username, password))
+        self.__cursor.execute("INSERT INTO business.users VALUES (%s, %s, %s, %s, %s)",
+                              (id, company_name, website, username, password))
         self.__connection.commit()
-
 
     def delete_coupon_by_uuids(self, business_uuid, item_uuid):
         self.__cursor.execute("DELETE FROM coupons.coupon WHERE business_uuid = %s AND item_uuid = %s"
@@ -117,17 +119,24 @@ class DatabaseConnection:
         self.__connection.commit()
 
     def get_preferences(self, user_uuid: str) -> []:
-        self.__cursor.execute("SELECT * FROM preferences.user_preferences WHERE user_uuid = %s", (user_uuid, ))
+        self.__cursor.execute("SELECT * FROM preferences.user_preferences WHERE user_uuid = %s", (user_uuid,))
         temp = []
         for item in self.__cursor.fetchall():
             temp.append(item[1])
         return temp
 
     def super_secure_credentials(self, username: str):
-        business = self.__cursor.execute("SELECT * FROM business.users WHERE username = %s", (username, ))
-        customer = self.__cursor.execute("SELECT * FROM customers.users WHERE username = %s", (username, ))
+        business = self.__cursor.execute("SELECT * FROM business.users WHERE username = %s", (username,))
         result = self.__cursor.fetchall()
-        return result
+        #print(result)
+        temp = {}
+        if result:
+            temp['BUSINESS'] = (result[0][0], result[0][3], result[0][4])
+        customer = self.__cursor.execute("SELECT * FROM customers.users WHERE username = %s", (username,))
+        result2 = self.__cursor.fetchall()
+        if result2:
+            temp['CUSTOMER'] = (result2[0][0], result2[0][1], result2[0][2])
+        return temp
 
     def get_uuid_from_username(self, username):
         self.__cursor.execute("SELECT uuid FROM customers.users WHERE username = %s", (username,))

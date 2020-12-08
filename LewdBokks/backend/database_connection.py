@@ -151,3 +151,10 @@ class DatabaseConnection:
     def get_uuid_from_username(self, username):
         self.__cursor.execute("SELECT uuid FROM customers.users WHERE username = %s", (username,))
         return self.__cursor.fetchall()
+
+    def update_users_preferences(self, uuid, pref_dict):
+        self.__cursor.execute("DELETE FROM preferences.user_preferences WHERE user_uuid = %s", (uuid,))
+        self.__connection.commit()
+        for item in pref_dict:
+            self.__cursor.execute("INSERT INTO preferences.user_preferences VALUES (%s, %s)", (uuid, item))
+        self.__connection.commit()

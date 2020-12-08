@@ -137,10 +137,11 @@ def validate_registration_company():
 @app.route('/preferences/')
 def preferences():
     unique_categories = dbc.get_distinct_categories()
-    uuid = dbc.get_uuid_from_username(session["username"])
+    uuid = dbc.get_uuid_from_username(session["username"])[0]
     pref_list = dbc.get_preferences(uuid)
     prime_entries = {}
     secondary_entries = {}
+
     for category in unique_categories[0]:
         if category in pref_list:
             prime_entries[category] = True
@@ -151,6 +152,7 @@ def preferences():
             secondary_entries[category] = True
         else:
             secondary_entries[category] = False
+
     return render_template("preferences.html", prime_entries=prime_entries, secondary_entries=secondary_entries)
 
 
@@ -210,6 +212,15 @@ def loot_box():
         return render_template("lootBox.html", form = form, entries = user_uuid,reward = discount, name = item )
     return render_template("lootBox.html", form = form, entries = user_uuid)
 
+
+@app.route('/update_prefs', methods=["POST"])
+def update_prefs():
+    uuid = session["uuid"]
+    pref_list = []
+    for key in request.form:
+        pref_list.append(key)
+    dbc.update_users_preferences(uuid, pref_list)
+    return redirect(url_for('index'))
 
 if __name__ == "__main__":
     app.run(debug=True)

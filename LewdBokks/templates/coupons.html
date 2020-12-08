@@ -12,29 +12,31 @@
 
     </div>
     <div class="row prefrow">
-        <div>
-            <table style="width:100%">
-                <tr>
-                    <th>ITEM UUID</th>
-                    <th>MIN</th>
-                    <th>MAX</th>
-                </tr>
 
-                    {% if entries %}
-                        {% for item in entries %}
-                            <tr>
-                            <td>{{ item[1] }}</td>
-                            <td>{{ item[2] }}</td>
-                            <td>{{ item[3] }}</td>
-                            </tr>
-                        {% endfor %}
-                    {% endif %}
+        <table style="width:100%">
+            <tr>
+                <th>ITEM UUID</th>
+                <th>MIN</th>
+                <th>MAX</th>
+            </tr>
 
-            </table>
+            {% if entries %}
+                {% for item in entries %}
+                    <tr>
+                        <td>{{ item[1] }}</td>
+                        <td>{{ item[2] }}</td>
+                        <td>{{ item[3] }}</td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
 
+        </table>
+        <br>
 
-        </div>
-
+        <form action="/coupons/" method="post">
+            {{ form.uuid_name }}
+            {{ form.submit_delete }}
+        </form>
     </div>
     <script type="text/javascript" src="{{ url_for('static', filename = 'featherstyle.js') }}"></script>
 {% endblock %}

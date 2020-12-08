@@ -3,7 +3,7 @@ import uuid
 from LewdBokks.backend.database_connection import DatabaseConnection
 
 number_of_items = 9000
-# random.seed(1234) 
+# random.seed(1234)
 
 color_list = ["black", "blue", "brown", "green", "red", "pink", "purple", "yellow", "white"]
 brand_list = ["Addidas", "Nike", "Puma", "Reebok", "Jack&Jones", "Boss", "Levis", "Lacoste", "Ralph Lauren", "Lee",

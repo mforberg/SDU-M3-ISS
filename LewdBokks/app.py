@@ -136,13 +136,18 @@ def preferences():
     return render_template("preferences.html", entries=entries)
 
 
-@app.route('/coupons/')
+@app.route('/coupons/', methods=['GET', 'POST'])
 def coupons():
-    uuid = 'b3089a02-d258-4ba2-a90a-3752432e2892'
-    records = dbc.get_instance().get_coupons_by_uuid(uuid)
-
-    return render_template("coupons.html", entries=records)
-
+    b_uuid = 'b3089a02-d258-4ba2-a90a-3752432e2892'
+    records = dbc.get_coupons_by_uuid(b_uuid)
+    error = None
+    form = DeleteCoupon()
+    print(records)
+    if request.method == "POST":
+        if request.form['uuid_name']:
+            dbc.delete_coupon_by_uuids(b_uuid, request.form['uuid_name'])
+            return redirect(url_for('coupons'))
+    return render_template("coupons.html", entries=records, form=form, error=error)
 
 @app.route('/products/')
 def products():

@@ -23,6 +23,11 @@ class RadioChoiceForm(FlaskForm):
     submit = SubmitField('Submit')
 
 
+class DeleteCoupon(FlaskForm):
+    uuid_name = StringField('uuid_name', validators=[DataRequired()])
+    submit_delete = SubmitField('Delete')
+
+
 class RegisterPersonForm(FlaskForm):
     username = StringField('Username', [validators.DataRequired(), validators.Length(min=4, max=25)])
     email = StringField('Email Address', [validators.DataRequired(), validators.Length(min=6, max=35)])

@@ -49,7 +49,7 @@ class DatabaseConnection:
         self.__connection.commit()
         print(self.__cursor.rowcount)
 
-    def get_coupons_by_uuid(self, uuid):
+    def get_coupons_by_uuid(self, uuid) -> list:
         self.__cursor.execute("select * from coupons.coupon where business_uuid = %s", (uuid,))
         return self.__cursor.fetchall()
 
@@ -78,3 +78,8 @@ class DatabaseConnection:
         print(password)
         self.__cursor.execute("INSERT INTO business.users VALUES (%s, %s, %s, %s, %s)", (id, company_name, website, username, password))
         self.__connection.commit()
+
+
+    def delete_coupon_by_uuids(self, business_uuid, item_uuid):
+        self.__cursor.execute("DELETE FROM coupons.coupon WHERE business_uuid = %s AND item_uuid = %s"
+                              , (business_uuid, item_uuid,))

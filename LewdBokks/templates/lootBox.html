@@ -25,10 +25,14 @@
           <li>Fifteen percent off: 17.5% chance</li>
           <li>Twenty percent off: 2.5% chance</li>
         </ul>
+        {%if session['username']%}
         <button type="button" class="btn btn-lg btn-block btn-primary" data-toggle="modal"
           data-target="#payment-modal-mp" data-whatever="Common">Buy with MobilePay</button>
         <button type="button" class="btn btn-lg btn-block btn-primary" data-toggle="modal"
           data-target="#payment-modal" data-whatever="Common">Buy with Credit Card</button>
+        {%else%}
+        <a href="/login">Login</a>
+        {%endif%}
         <!-- Modal -->
 
       </div>
@@ -44,10 +48,14 @@
           <li>Fifteen percent off: 25% chance</li>
           <li>Twenty percent off: 5% chance</li>
         </ul>
+        {%if session['username']%}
         <button type="button" class="btn btn-lg btn-block btn-primary" data-toggle="modal"
           data-target="#payment-modal-mp" data-whatever="Uncommon">Buy with MobilePay</button>
         <button type="button" class="btn btn-lg btn-block btn-primary" data-toggle="modal"
           data-target="#payment-modal" data-whatever="Uncommon">Buy with Credit Card</button>
+        {%else%}
+        <a href="/login">Login</a>
+        {%endif%}
       </div>
     </div>
     <div class="card mb-4 shadow-sm">
@@ -61,10 +69,14 @@
           <li>Fifteen percent off: 25% chance</li>
           <li>Twenty percent off: 15% chance</li>
         </ul>
+        {%if session['username']%}
         <button type="button" class="btn btn-lg btn-block btn-primary" data-toggle="modal"
           data-target="#payment-modal-mp" data-whatever="Rare">Buy with MobilePay</button>
         <button type="button" class="btn btn-lg btn-block btn-primary" data-toggle="modal"
           data-target="#payment-modal" data-whatever="Rare">Buy with Credit Card</button>
+        {%else%}
+        <a href="/login">Login</a>
+        {%endif%}
       </div>
     </div>
   </div>

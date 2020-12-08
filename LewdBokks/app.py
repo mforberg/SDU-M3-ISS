@@ -5,6 +5,7 @@ from forms import *
 import os
 from backend.database_connection import DatabaseConnection
 from flask_session import Session
+from backend.lootboxes import LootBox
 
 secret_key = os.urandom(32)
 app = Flask(__name__)
@@ -13,6 +14,7 @@ app.secret_key = secret_key
 app.config['SESSION_TYPE'] = "filesystem"
 Session(app)
 dbc = DatabaseConnection().get_instance()
+lb = LootBox().get_instance()
 
 
 @app.route('/')
@@ -196,9 +198,17 @@ def products():
     return render_template("products.html")
 
 
-@app.route('/lootbox')
+@app.route('/lootbox', methods=['POST', 'GET'])
 def loot_box():
-    return render_template("lootBox.html")
+    form = BuyLootBox()
+    user_uuid = session['uuid']
+    if request.method == "POST":
+        result = dbc.query("SELECT * FROM business.users")
+        lootbox_type = request.form['CreditCard']
+        print(lootbox_type)
+        discount, item = lb.generate_lootbox(user_uuid, dbc, lootbox_type)
+        return render_template("lootBox.html", form = form, entries = user_uuid,reward = discount, name = item )
+    return render_template("lootBox.html", form = form, entries = user_uuid)
 
 
 if __name__ == "__main__":

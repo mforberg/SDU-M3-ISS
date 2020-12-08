@@ -1,4 +1,7 @@
-from database_connection import DatabaseConnection
+from .database_connection import DatabaseConnection
+import random
+
+#dbc = DatabaseConnection().get_instance()
 
 
 class LootBox:
@@ -16,40 +19,75 @@ class LootBox:
         else:
             LootBox.__instance = self
 
-    def generate_lootbox(self, uuid):
+    def generate_lootbox(self, uuid, dbc, lootbox_type):
         """Method to generate a single lootbox of items based on a customers (UUID) preferences"""
-
-        preferences = self.__get_preferences(uuid)
-        collected_items = self.__collect(preferences)
-        probability_assigned_items = self.__set_probabilities(collected_items)
-        drawn_items = self.__draw_items(probability_assigned_items)
+        print(uuid)
+        preferences = self.__get_preferences(uuid, dbc)
+        collected = self.__collect(preferences, dbc)
+        probability_assigned_items = self.__set_probabilities(collected, dbc)
+        #collected_items = self.__collect(probability_assigned_items, dbc)
+        drawn_items = self.__draw_items(probability_assigned_items, lootbox_type)
 
         return drawn_items
 
-    def get_preferences(self, uuid):
+    def __get_preferences(self, uuid, dbc):
         """TODO: Needs to collect the users preferences from a database, based on their UUID"""
-        dbc = DatabaseConnection().get_instance()
-        result = dbc.query("SELECT * FROM business.users")
+        result = dbc.get_preferences(uuid)
         print(result)
-        return 0
+        return result
 
-    def __collect(self, preferences):
+    def __collect(self, preferences, dbc):
         """TODO: Needs to collect all (?) articles of clothing based on the preferences of the user prefs"""
-        return 0
+        result = []
+        for preference in preferences:
+            result.append(dbc.get_preferences_items(preference))
+        print(result)
+        return result
 
-    def __set_probabilities(self, collected_items):
+    def __set_probabilities(self, collected_items, dbc):
         """TODO: Once items has been collected, they need to have assigned random probabilities between their min &
         max """
-        # min = 1
-        # max = 5
-        # loottype = "common"
-        # if loottype == "common":
-        #     print()
-        return 0
+        result = []
+        for item in collected_items:
+            if len(item) != 0:
+                result.append((item[0][0], dbc.get_probability(item[0][0])))
+        print(result)
+        return result
 
-    def __draw_items(self, probabilitiy_assigned_items):
+    def __draw_items(self, probabilitiy_assigned_items, lootbox_type):
         """TODO: Should draw items based on probabilities"""
-        return 0
+
+        
+        item = random.choice(probabilitiy_assigned_items)
+        discount = 0
+        mini = item[1][0][0]
+        maxi = item [1][0][1]
+        val = random.randint(0, 100)
+        loot = ""
+        if lootbox_type == "Common":
+            if val <= 80:
+                loot = "Normal"
+            else:
+                loot = "Great"
+        elif lootbox_type == "Uncommon":
+            if val <= 70:
+                loot = "Normal"
+            else:
+                loot = "Great"
+        elif lootbox_type == "Rare":
+            if val <= 60:
+                loot = "Normal"
+            else:
+                loot = "Great"
+        print("loot" + loot)
+        if loot == "Normal":
+            half_point = round(maxi - ((maxi - mini) / 2))
+            discount = random.randint(mini, half_point)
+        elif loot == "Great":
+            half_point = round(maxi - ((maxi - mini) / 2))
+            discount = random.randint(half_point, maxi)  
+        print(discount)
+        return discount, item[0]
 
 
-LootBox().get_preferences(123)
+#LootBox().__get_preferences(123)

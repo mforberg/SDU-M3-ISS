@@ -102,15 +102,17 @@
 </div> -->
 
   <!--Payment card-->
-<div class="modal fade" id="payment-modal" data-target="#CreditCard" id="lootbox" role="dialog">
+<div class="modal fade" id="payment-modal" data-target="#CreditCard" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">Payment</h4>
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
+      <form action="/lootbox" method="POST">
       <div class="modal-body">
         <div class="form-group">
+            <input type="hidden" name="CreditCard" value="" id="hiddenval">
           <label for="card-number" class="col-form-label">Card number:</label>
           <input type="text" class="form-control" id="number" name="number">
           <label for="card-holder-name" class="col-form-label">Card holder's name:</label>
@@ -124,35 +126,41 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" onclick="checkcard(number, holder, month, year, security)" class="btn btn-primary">Pay</button>
+        <button type="button"  data-dismiss="modal">Close</button>
+            {{form.submit_pay}}
       </div>
+    </form>
     </div>
   </div>
 </div>
 
   <!--Payment card-->
-  <div class="modal fade" id="payment-modal-mp" data-target="#MobilePay" id="lootbox" role="dialog">
+  <div class="modal fade" id="payment-modal-mp" data-target="#MobilePay" role="dialog">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title">Payment</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
+        <form action="/lootbox" method="POST">
         <div class="modal-body">
           <div class="form-group">
+            <input type="hidden" name="CreditCard" value="" id="hiddenval-mp">
             <label for="phone-number" class="col-form-label">Phone number:</label>
             <input type="text" class="form-control" id="phonenumber" name="phonenumber">
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" onclick="checkph(phonenumber, valu)" id="pay-mp" class="btn btn-primary">Pay</button>
+          <button type="button"  data-dismiss="modal">Close</button>
+            {{form.submit_pay}}
+        </form>
         </div>
       </div>
     </div>
   </div>
-
+{%if reward%}
+  <script>alert("Discount: {{reward}}% \nOn item: {{name}}") </script>
+{%endif%}
   <script type="text/javascript" src="{{ url_for('static', filename = 'featherstyle.js') }}"></script>
   <script type="text/javascript" src="{{ url_for('static', filename = 'paymentevent.js') }}"></script>
 {% endblock %}

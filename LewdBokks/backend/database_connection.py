@@ -36,8 +36,8 @@ class DatabaseConnection:
         return DatabaseConnection.__instance__
 
     def query(self, query):
-        result = self.__cursor.execute(query)
-
+        self.__cursor.execute(query)
+        result = self.__cursor.fetchall()
         if result:
             return result
         return None
@@ -124,6 +124,16 @@ class DatabaseConnection:
         for item in self.__cursor.fetchall():
             temp.append(item[1])
         return temp
+    
+    def get_preferences_items(self, preference: str) -> []:
+        self.__cursor.execute("SELECT * FROM products.items where uuid in (SELECT item_uuid FROM coupons.coupon WHERE sub_category = %s)", (preference,))
+        return self.__cursor.fetchall()
+
+    
+    def get_probability(self, item_uuid: str) -> []:
+        self.__cursor.execute("SELECT min, max FROM coupons.coupon where item_uuid = %s", (item_uuid,))
+        return self.__cursor.fetchall()
+
 
     def super_secure_credentials(self, username: str):
         business = self.__cursor.execute("SELECT * FROM business.users WHERE username = %s", (username,))

@@ -3,12 +3,14 @@ $('#payment-modal').on('show.bs.modal', function (event) {
     var button = $(event.relatedTarget) // Button that triggered the modal
     lootboxtype = button.data('whatever') // Extract info from data-* attributes
     console.log(lootboxtype)
+    $("#hiddenval").val(lootboxtype)
   })
 
 $('#payment-modal-mp').on('show.bs.modal', function (event) {
 var button = $(event.relatedTarget) // Button that triggered the modal
 lootboxtype = button.data('whatever') // Extract info from data-* attributes
 console.log(lootboxtype)
+$("#hiddenval-mp").val(lootboxtype)
 })
 
 $(document).ready(function(){
@@ -19,7 +21,7 @@ $(document).ready(function(){
   });
 
 
-  function checkph(texy, valu){
+  function checkph(texy){
       var phoneNumber = $(texy).val()
         if(/^\d+$/.test(phoneNumber) && phoneNumber.length == 8){
             console.log(lootboxtype)

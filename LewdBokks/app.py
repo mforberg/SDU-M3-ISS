@@ -1,7 +1,7 @@
 from flask import Flask, request, render_template, redirect, url_for
 from backend.db import *
 import json
-from forms import LoginForm, DeleteCoupon, AddCoupon
+from forms import *
 import os
 from backend.database_connection import DatabaseConnection
 
@@ -46,14 +46,80 @@ def validate():
 @app.route('/login')
 def login():
     form = LoginForm()
-    if form.validate_on_submit():
-        return render_template('index.html')
     return render_template('login.html', form=form)
 
 
 @app.route('/register')
 def register():
-    return render_template('register.html')
+    form = RadioChoiceForm()
+    return render_template('register.html', form=form)
+
+
+@app.route('/validateChoice', methods=["POST"])
+def validate_choice():
+    form = RadioChoiceForm()
+    print(request.form)
+    if request.form['radio'] == 'company':
+        return redirect(url_for('company'))
+    else:
+        return redirect(url_for('person'))
+
+
+@app.route('/register/person', methods=["POST", "GET"])
+def person():
+    form = RegisterPersonForm()
+    return render_template('registerPerson.html', form=form)
+
+
+@app.route('/register/company', methods=["POST", "GET"])
+def company():
+    form = RegisterCompanyForm()
+    return render_template('registerCompany.html', form=form)
+
+
+@app.route('/validateRegistrationPerson', methods=["POST", "GET"])
+def validate_registration_person():
+    error = None
+    form = RegisterPersonForm()
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        email = request.form['email']
+        username_dict = dbc.get_instance().get_user_names(username)
+        email_dict = dbc.get_instance().get_emails(email)
+        if len(username_dict) > 0:
+            error = 'username taken'
+        elif len(email_dict) > 0:
+            error = 'email taken'
+        elif password != request.form['confirm']:
+            error = 'Passwords does not match'
+        else:
+            dbc.get_instance().register_person(username, password, email)
+            return redirect(url_for('index'))
+    return render_template("registerPerson.html", error=error, form=form)
+
+
+@app.route('/validateRegistrationCompany', methods=["POST", "GET"])
+def validate_registration_company():
+    error = None
+    form = RegisterCompanyForm()
+    if request.method == 'POST':
+        username = request.form['username']
+        company_name = request.form['companyname']
+        url = request.form['websiteurl']
+        password = request.form['password']
+        username_dict = dbc.get_instance().get_user_names(username)
+        company_name_dict = dbc.get_instance().get_company_names(company_name)
+        if len(username_dict) > 0:
+            error = 'username taken'
+        elif len(company_name_dict) > 0:
+            error = 'company name taken'
+        elif password != request.form['confirm']:
+            error = 'Passwords does not match'
+        else:
+            dbc.get_instance().register_company(company_name, url, username, password)
+            return redirect(url_for('index'))
+    return render_template("registerCompany.html", error=error, form=form)
 
 
 @app.route('/preferences/')
@@ -107,7 +173,6 @@ def add_coupon():
         if request.form['price']:
             dbc.add_coupon(b_uuid, request.form)
             return redirect(url_for('coupons'))
-
 
 @app.route('/products/')
 def products():

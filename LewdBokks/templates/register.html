@@ -8,16 +8,22 @@
 
 
 {% block content %}
-    <div id="chooseDiv">
-        <form id="chooseForm">
-            <input type="radio" id="Person" name="choosePositionRB" value="person" checked="checked">
-            <label for="Person">Person</label><br>
-            <input type="radio" id="Company" name="choosePositionRB" value="company">
-            <label for="Company">Company</label><br>
-        </form>
-        <input type="submit" value="Continue">
+    <div class="container">
+        <div class="row">
+            <div id="chooseDiv">
+                <form id="chooseForm" method="POST" action="/validateChoice" enctype="multipart/form-data">
+                    <div class="row">
+                        {{ form.radio }}
+                    </div>
+                    <div class="row">
+                        {{ form.submit }}
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 
+
     <script type="text/javascript" src="{{ url_for('static', filename = 'featherstyle.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename = 'registerscript.js') }}"></script>
+{#    <script type="text/javascript" src="{{ url_for('static', filename = 'registerscript.js') }}"></script>#}
 {% endblock %}

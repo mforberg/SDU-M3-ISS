@@ -163,11 +163,22 @@ def validate_registration_company():
 
 @app.route('/preferences/')
 def preferences():
-    entries = {}
     unique_categories = dbc.get_distinct_categories()
-    prim_cat = unique_categories[0]
-    sub_cat = unique_categories[1]
-    return render_template("preferences.html", entries=unique_categories)
+    uuid = dbc.get_uuid_from_username(session["username"])
+    pref_list = dbc.get_preferences(uuid)
+    prime_entries = {}
+    secondary_entries = {}
+    for category in unique_categories[0]:
+        if category in pref_list:
+            prime_entries[category] = True
+        else:
+            prime_entries[category] = False
+    for category in unique_categories[1]:
+        if category in pref_list:
+            secondary_entries[category] = True
+        else:
+            secondary_entries[category] = False
+    return render_template("preferences.html", prime_entries=prime_entries, secondary_entries=secondary_entries)
 
 
 # b_uuid = 'b3089a02-d258-4ba2-a90a-3752432e2892'

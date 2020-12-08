@@ -129,3 +129,6 @@ class DatabaseConnection:
         result = self.__cursor.fetchall()
         return result
 
+    def get_uuid_from_username(self, username):
+        self.__cursor.execute("SELECT uuid FROM customers.users WHERE username = %s", (username,))
+        return self.__cursor.fetchall()

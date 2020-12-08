@@ -123,5 +123,9 @@ class DatabaseConnection:
             temp.append(item[1])
         return temp
 
-
+    def super_secure_credentials(self, username: str):
+        business = self.__cursor.execute("SELECT * FROM business.users WHERE username = %s", (username, ))
+        customer = self.__cursor.execute("SELECT * FROM customers.users WHERE username = %s", (username, ))
+        result = self.__cursor.fetchall()
+        return result
 

@@ -34,28 +34,58 @@ def index():
 
 @app.route('/validate', methods=['GET', 'POST'])
 def validate():
+    CUSTOMER = 4
+
     error = None
     form = LoginForm()
     if request.method == 'POST':
-        if request.form['username'] != 'peter' or request.form['password'] != 'pedigrew':
-            error = 'Invalid'
-        else:
+        result = dbc.super_secure_credentials(request.form['username'])
+        if result:
+            if get_user_type(result) == CUSTOMER:
+                if request.form['password'] == result[0][2]:
+                    session['username'] = result[0][1]
+                    session['uuid'] = result[0][0]
+                    session['customer'] = True
+                    return redirect(session['referer'])
+                else:
+                    error = 'Invalid'
+            else:
+                if request.form['password'] == result[0][4]:
+                    session['username'] = result[0][1]
+                    session['uuid'] = result[0][0]
+                    session['customer'] = False
+                    return redirect(session['referer'])
+                else:
+                    error = 'Invalid'
 
-            session['username'] = request.form['username']
-            return redirect(url_for('index'))
+        # if request.form['username'] != 'peter' or request.form['password'] != 'pedigrew':
+        #     error = 'Invalid'
+        # else:
+        #
+        #     session['username'] = request.form['username']
+        #     return redirect(url_for('index'))
     return render_template("login.html", error=error, form=form)
+
+
+def get_user_type(result):
+    """Amazing code, a user is customer if there is 4 columns in the DB result, and business user if 5 columns"""
+    if len(result[0]) == 4:
+        return 4
+    if len(result[0]) == 5:
+        return 5
 
 
 @app.route('/login')
 def login():
     form = LoginForm()
+    session['referer'] = request.environ['HTTP_REFERER']
     return render_template('login.html', form=form)
 
 
 @app.route('/logout')
 def logout():
-   session.pop('username', None)
-   return redirect(url_for('index'))
+    session.pop('username', None)
+    return redirect(url_for('index'))
 
 
 @app.route('/register')
@@ -131,7 +161,6 @@ def validate_registration_company():
     return render_template("registerCompany.html", error=error, form=form)
 
 
-
 @app.route('/preferences/')
 def preferences():
     entries = {}
@@ -141,7 +170,7 @@ def preferences():
     return render_template("preferences.html", entries=unique_categories)
 
 
-#b_uuid = 'b3089a02-d258-4ba2-a90a-3752432e2892'
+# b_uuid = 'b3089a02-d258-4ba2-a90a-3752432e2892'
 
 
 @app.route('/coupons/', methods=['GET', 'POST'])
@@ -179,6 +208,7 @@ def add_coupon():
             dbc.add_coupon(b_uuid, request.form)
             return redirect(url_for('coupons'))
 
+
 @app.route('/products/')
 def products():
     return render_template("products.html")
@@ -192,6 +222,7 @@ def insert_to_db():
         # TODO: fix this ^ is original line, but con no work
         pass
     return "Received"
+
 
 @app.route('/lootbox')
 def loot_box():

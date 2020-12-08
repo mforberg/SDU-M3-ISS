@@ -203,5 +203,11 @@ def loot_box():
     return render_template("lootBox.html")
 
 
+@app.route('/update_prefs', methods=["POST"])
+def update_prefs():
+    print(request.form)
+    return redirect(url_for('index'))
+
+
 if __name__ == "__main__":
     app.run(debug=True)

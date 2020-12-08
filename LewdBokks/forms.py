@@ -73,3 +73,15 @@ class RegisterCompanyForm(FlaskForm):
     confirm = PasswordField('Repeat Password', [validators.DataRequired()])
     accept_tos = BooleanField('I accept the TOS', [validators.DataRequired()])
     submit = SubmitField('Submit')
+
+
+# class PrefForm(FlaskForm):
+#     prime_boolean = BooleanField()
+#     sub_boolean = BooleanField()
+#
+#     def __init__(self, primary_cat: list, sub_cat: list, *args, **kwargs):
+#         super().__init__(*args, **kwargs)
+#         if primary_cat:
+#             self.prime_category.choices = primary_cat
+#         if sub_cat:
+#             self.sub_category.choices = sub_cat

@@ -15,18 +15,6 @@ Session(app)
 dbc = DatabaseConnection().get_instance()
 
 
-# class Connect(object):
-#     @staticmethod
-#     def get_connection():
-#         return MongoClient(
-#             "mongodb+srv://bobitybo:" + code + "@cluster0.rtdkg.mongodb.net/ISSProject?retryWrites=true&w=majority")
-#
-#
-# connection = Connect.get_connection()
-# db = connection["ISSProject"]
-# col = db["Fashion"]
-
-
 @app.route('/')
 def index():
     return render_template("index.html")
@@ -164,9 +152,6 @@ def preferences():
     return render_template("preferences.html", prime_entries=prime_entries, secondary_entries=secondary_entries)
 
 
-# b_uuid = 'b3089a02-d258-4ba2-a90a-3752432e2892'
-
-
 @app.route('/coupons/', methods=['GET', 'POST'])
 def coupons():
     if 'uuid' in session:
@@ -209,16 +194,6 @@ def add_coupon():
 @app.route('/products/')
 def products():
     return render_template("products.html")
-
-
-@app.route('/insert', methods=['POST'])
-def insert_to_db():
-    content = request.json
-    if request.method == 'POST':
-        # con.get_table("Fashion").insert(json.loads(content))
-        # TODO: fix this ^ is original line, but con no work
-        pass
-    return "Received"
 
 
 @app.route('/lootbox')

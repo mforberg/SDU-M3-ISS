@@ -56,7 +56,7 @@ def register():
 
 
 @app.route('/validateChoice', methods=["POST"])
-def validatechoice():
+def validate_choice():
     form = RadioChoiceForm()
     print(request.form)
     if request.form['radio'] == 'company':
@@ -77,17 +77,48 @@ def company():
     return render_template('registerCompany.html', form=form)
 
 
-@app.route('validateRegistration', methods=["POST", "GET"])
-def validateregistration():
+@app.route('/validateRegistrationPerson', methods=["POST", "GET"])
+def validate_registration_person():
+    error = None
+    form = RegisterPersonForm()
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        email = request.form['email']
+        username_dict = dbc.get_instance().get_user_names(username)
+        email_dict = dbc.get_instance().get_emails(email)
+        if len(username_dict) > 0:
+            error = 'username taken'
+        elif len(email_dict) > 0:
+            error = 'email taken'
+        elif password != request.form['confirm']:
+            error = 'Passwords does not match'
+        else:
+            dbc.get_instance().register_person(username, password, email)
+            return redirect(url_for('index'))
+    return render_template("registerPerson.html", error=error, form=form)
 
 
-# @app.route('/register/X')
-# def registerx():
-#     print(request)
-#     x = request.form["person"]
-#     if x:
-#         print("dakpo")
-#     return render_template('register.html')
+@app.route('/validateRegistrationCompany', methods=["POST", "GET"])
+def validate_registration_company():
+    error = None
+    form = RegisterPersonForm()
+    if request.method == 'POST':
+        comanyname = request.form['companyname']
+        password = request.form['password']
+        email = request.form['email']
+        username_dict = dbc.get_instance().get_user_names(username)
+        email_dict = dbc.get_instance().get_emails(email)
+        if len(username_dict) > 0:
+            error = 'username taken'
+        elif len(email_dict) > 0:
+            error = 'email taken'
+        elif password != request.form['confirm']:
+            error = 'Passwords does not match'
+        else:
+            dbc.get_instance().register_person(comanyname, password, email)
+            return redirect(url_for('index'))
+    return render_template("registerCompany.html", error=error, form=form)
 
 
 @app.route('/preferences/')

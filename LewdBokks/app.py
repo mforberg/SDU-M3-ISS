@@ -41,15 +41,18 @@ def validate():
         if request.form['username'] != 'peter' or request.form['password'] != 'pedigrew':
             error = 'Invalid'
         else:
-            
             session['username'] = request.form['username']
-            return redirect(url_for('index'))
+
+            if session["referer"]: 
+                return redirect(session["referer"])
     return render_template("login.html", error=error, form=form)
 
 
 @app.route('/login')
 def login():
     form = LoginForm()
+    session["referer"] = request.environ["HTTP_REFERER"]
+
     return render_template('login.html', form=form)
 
 @app.route('/logout')

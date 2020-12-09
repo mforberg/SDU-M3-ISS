@@ -175,7 +175,11 @@ class DatabaseConnection:
             product_list.append(row)
             
         return product_list
-    
+
+    def get_lootboxes(self, user_uuid: str):
+        self.__cursor.execute("SELECT * FROM lootbox.boxes WHERE user_uuid = %s", (user_uuid,))
+        return self.__cursor.fetchall()
+
     def add_lootbox(self, user_uuid: str, item_uuid: str, discount: int):
         self.__cursor.execute("INSERT INTO lootbox.boxes VALUES (%s, %s, %s)", (user_uuid, item_uuid, discount,))
         self.__connection.commit()

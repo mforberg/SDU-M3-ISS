@@ -234,11 +234,30 @@ def loot_box():
             lootbox_type = request.form['payment']
             print(lootbox_type)
             discount, item = lb.generate_lootbox(user_uuid, dbc, lootbox_type)
-            return render_template("lootBox.html", form = form, entries = user_uuid,reward = discount, name = item )
+            session['discount'] = discount
+            session['item'] = item
+            return redirect(url_for('purchase'))
+            #return render_template("purchase.html", form = form, entries = user_uuid,reward = discount, name = item )
         return render_template("lootBox.html", form = form, entries = user_uuid)
     else:
         return render_template("lootBox.html", form = form)
 
+
+@app.route('/purchase')
+def purchase():
+    if 'discount' in session:
+        discount = session.pop('discount')
+        item = session.pop('item')
+        return render_template("purchase.html", reward = discount, name = item)
+    return render_template("purchase.html")
+
+@app.route('/myloot')
+def myloot():
+    if 'uuid' in session:
+        user = session['uuid']
+        print(user)
+        lootboxes = dbc.get_lootboxes(user)
+        return render_template("myloot.html", entries = lootboxes)
 
 @app.route('/update_prefs', methods=["POST"])
 def update_prefs():

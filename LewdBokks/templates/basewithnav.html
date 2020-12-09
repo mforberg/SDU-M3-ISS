@@ -9,7 +9,8 @@
                        ('/preferences', 'preferences', 'Preferences', 'file'),
                         ('/coupons', 'coupons', 'Coupons', 'file'),
                         ('/products', 'products', 'Products', 'shopping-cart'),
-                        ('/lootbox', 'lootbox', 'Lootbox', 'gift')]-%}
+                        ('/lootbox', 'lootbox', 'Lootbox', 'gift'),
+                        ('/myloot', 'myloot', 'MyLoot', 'user')]-%}
 
 {%set active_page = active_page | default('index')-%}
 
@@ -50,6 +51,15 @@
                                     class="sr-only">(current)</span> {%endif%}</a>
                                     </li>
                                 {%endif%}
+                            {%elif id == 'myloot'%}
+                                    {%if session['customer']%}
+                                    <li class="nav-item">
+                                        <a {% if id == active_page %} class="nav-link active" {%else%} class="nav-link" {%endif
+                                        %} href="{{ href|e }}"><span
+                                        data-feather="{{datfeather}}"></span>{{caption|e}}{% if id == active_page %}<span
+                                        class="sr-only">(current)</span> {%endif%}</a>
+                                        </li>
+                                    {%endif%}                                    
                             {%else%}
                                 <li class="nav-item">
                                 <a {% if id == active_page %} class="nav-link active" {%else%} class="nav-link" {%endif

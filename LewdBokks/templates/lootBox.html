@@ -158,9 +158,6 @@
       </div>
     </div>
   </div>
-{%if reward%}
-  <script>alert("Discount: {{reward}}% \nOn item: {{name}}") </script>
-{%endif%}
   <script type="text/javascript" src="{{ url_for('static', filename = 'featherstyle.js') }}"></script>
   <script type="text/javascript" src="{{ url_for('static', filename = 'paymentevent.js') }}"></script>
 {% endblock %}

@@ -221,14 +221,18 @@ def products():
 @app.route('/lootbox', methods=['POST', 'GET'])
 def loot_box():
     form = BuyLootBox()
-    user_uuid = session['uuid']
-    if request.method == "POST":
-        result = dbc.query("SELECT * FROM business.users")
-        lootbox_type = request.form['CreditCard']
-        print(lootbox_type)
-        discount, item = lb.generate_lootbox(user_uuid, dbc, lootbox_type)
-        return render_template("lootBox.html", form = form, entries = user_uuid,reward = discount, name = item )
-    return render_template("lootBox.html", form = form, entries = user_uuid)
+    if 'uuid' in session:
+        user_uuid = session['uuid']
+        if request.method == "POST":
+            #result = dbc.query("SELECT * FROM business.users")
+            print(request.form)
+            lootbox_type = request.form['payment']
+            print(lootbox_type)
+            discount, item = lb.generate_lootbox(user_uuid, dbc, lootbox_type)
+            return render_template("lootBox.html", form = form, entries = user_uuid,reward = discount, name = item )
+        return render_template("lootBox.html", form = form, entries = user_uuid)
+    else:
+        return render_template("lootBox.html", form = form)
 
 
 @app.route('/update_prefs', methods=["POST"])

@@ -27,7 +27,7 @@ class LootBox:
         probability_assigned_items = self.__set_probabilities(collected, dbc)
         #collected_items = self.__collect(probability_assigned_items, dbc)
         drawn_items = self.__draw_items(probability_assigned_items, lootbox_type)
-
+        dbc.add_lootbox(uuid, drawn_items[1], drawn_items[0])
         return drawn_items
 
     def __get_preferences(self, uuid, dbc):

@@ -170,3 +170,11 @@ class DatabaseConnection:
             product_list.append(row)
             
         return product_list
+    
+    def add_lootbox(self, user_uuid: str, item_uuid: str, discount: int):
+        self.__cursor.execute("INSERT INTO lootbox.boxes VALUES (%s, %s, %s)", (user_uuid, item_uuid, discount,))
+        self.__connection.commit()
+
+    def delete_lootbox(self, user_uuid: str, item_uuid: str):
+        self.__cursor.excecute("DELETE FROM lootbox.boxes WHERE user_uuid = %s AND item_uuid = %s", (user_uuid, item_uuid))
+

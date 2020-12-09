@@ -159,6 +159,11 @@ class DatabaseConnection:
             self.__cursor.execute("INSERT INTO preferences.user_preferences VALUES (%s, %s)", (uuid, item))
         self.__connection.commit()
         
+    
+    def get_products(self):
+        self.__cursor.execute("SELECT uuid FROM products.items")    
+        return self.__cursor.fetchall()
+        
     def get_products_given_preferences(self, preferences):
         product_list = []
         row_list = []

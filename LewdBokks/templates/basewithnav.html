@@ -41,6 +41,15 @@
                                     </li>
                                 {%else%}
                                 {%endif%}
+                            {%elif id == 'lootbox'%}
+                                {%if session['customer']%}
+                                <li class="nav-item">
+                                    <a {% if id == active_page %} class="nav-link active" {%else%} class="nav-link" {%endif
+                                    %} href="{{ href|e }}"><span
+                                    data-feather="{{datfeather}}"></span>{{caption|e}}{% if id == active_page %}<span
+                                    class="sr-only">(current)</span> {%endif%}</a>
+                                    </li>
+                                {%endif%}
                             {%else%}
                                 <li class="nav-item">
                                 <a {% if id == active_page %} class="nav-link active" {%else%} class="nav-link" {%endif

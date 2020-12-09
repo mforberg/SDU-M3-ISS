@@ -207,14 +207,19 @@ def add_coupon():
 
 @app.route('/products/')
 def products():
-    uuid = dbc.get_uuid_from_username(session["username"])[0]
-    pref_list = dbc.get_preferences(uuid)
-
-    uuid_list = dbc.get_products_given_preferences(pref_list)
     uber_banger_list_of_uuid = []
-    for uuid in uuid_list:
-        for listuuid in uuid:
-            uber_banger_list_of_uuid.append(listuuid[0])
+
+    if "username" in session:
+        uuid = dbc.get_uuid_from_username(session["username"])[0]
+        pref_list = dbc.get_preferences(uuid)
+
+        uuid_list = dbc.get_products_given_preferences(pref_list)
+        for uuid in uuid_list:
+            for listuuid in uuid:
+                uber_banger_list_of_uuid.append(listuuid[0])
+    else:
+        product_list = dbc.get_products()
+        return render_template("products.html", uuids=uber_banger_list_of_uuid)
     return render_template("products.html", uuids=uber_banger_list_of_uuid)
 
 

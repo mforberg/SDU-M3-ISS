@@ -180,10 +180,10 @@ class DatabaseConnection:
         self.__cursor.execute("SELECT * FROM lootbox.boxes WHERE user_uuid = %s", (user_uuid,))
         return self.__cursor.fetchall()
 
-    def add_lootbox(self, user_uuid: str, item_uuid: str, discount: int):
-        self.__cursor.execute("INSERT INTO lootbox.boxes VALUES (%s, %s, %s)", (user_uuid, item_uuid, discount,))
+    def add_lootbox(self, user_uuid: str, item_uuid: str, discount: int, discount_code):
+        self.__cursor.execute("INSERT INTO lootbox.boxes VALUES (%s, %s, %s, %s)", (user_uuid, item_uuid, discount, discount_code))
         self.__connection.commit()
 
-    def delete_lootbox(self, user_uuid: str, item_uuid: str):
-        self.__cursor.excecute("DELETE FROM lootbox.boxes WHERE user_uuid = %s AND item_uuid = %s", (user_uuid, item_uuid))
+    def delete_lootbox(self, discount_code: str):
+        self.__cursor.excecute("DELETE FROM lootbox.boxes WHERE discount_code = %s", (discount_code,))
 

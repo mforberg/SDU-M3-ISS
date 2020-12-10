@@ -245,6 +245,9 @@ def loot_box():
             session ['code'] = discount_code
             return redirect(url_for('purchase'))     
             #return render_template("purchase.html", form = form, entries = user_uuid,reward = discount, name = item )
+        if('payment-mp' in request.form):
+            if(form_phone.errors):
+                return render_template("lootBox.html", form = form, form2 = form_phone, entries = user_uuid, errors = form_phone.errors, originoferror = 'payment-mp')
         return render_template("lootBox.html", form = form, form2 = form_phone, entries = user_uuid)
 
     else:

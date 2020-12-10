@@ -13,10 +13,12 @@ console.log(lootboxtype)
 $("#hiddenval-mp").val(lootboxtype)
 })
 
+var formerrors = {%if form.errors%}true{%else%} false{%endif%};
+
+
 $(document).ready(function(){
     $('#pay-mp').click(function(){
        console.log("pressed")
-
     });
   });
 

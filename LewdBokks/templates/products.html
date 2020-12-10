@@ -9,6 +9,17 @@
 
 {%block navcontent%}
 
+{% set image_link = ['https://wilderness-production.imgix.net/80a27c3287024f94f51fcd34e06d72aa/Marmot-Eldridge.jpg?auto=compress%2Cformat&fit=crop&h=500&ixlib=php-3.3.0&w=500&wpsize=square_med',
+                    'https://www.next.co.uk/nxtcms/resource/image/2622154/portrait_ratio2x3/320/480/dbd6740716801543e4930f99264676db/Cy/-0005-436-544s2.jpg',
+                    'https://www.legowear.com/admin/public/getimage.ashx?Image=/Files/Images/produkter/22699-171_1.JPG&Width=400&Height=400&Format=png&Quality=10&Crop=5',
+                    'https://cdn.cliqueinc.com/posts/78698/monthly-shopping-clothing-budget-guide-2014-78698-1585175460398-main.700x0c.jpg',
+                    'https://aws.atomretro.com/xlarge/madcap-button-through-polo-spruce-front.jpg',
+                    'https://www.forever21.com/dw/image/v2/BFKH_PRD/on/demandware.static/-/Sites-f21-master-catalog/default/dwa73a5463/2_side_750/00422558-01.jpg?sw=400&sh=600',
+                    'https://www.next.co.uk/nxtcms/resource/image/2594740/portrait_ratio2x3/320/480/321f16f86a631f126ad4ddc0cc813a89/gi/jumpsuit.jpg',
+                    'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/zoomfashion-index-1586542881.jpg?crop=0.503xw:1.00xh;0,0&resize=640:*',
+                    'https://www.dhresource.com/0x0/f2/albu/g8/M01/5C/08/rBVaV1zr19KAG_XhAAJ_EbxHaJI122.jpg',
+                    'https://upload.wikimedia.org/wikipedia/commons/5/5a/Jeans.jpg']-%}
+
 <div id="myCarousel" class="carousel slide" data-ride="carousel">
     <div class="carousel-inner bg-secondary" role="listbox" style="padding-top: 100px;">
         <div class="carousel-item active text-center text-white p-4">
@@ -16,8 +27,13 @@
         </div>
             {%for uuid in uuids%}
             <div class="carousel-item text-center text-white p-4">
-                <h1>{{uuid}}.</h1>
-                    </div>
+                <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
+                <img class="d-block w-100 h-100" src="{{image_link|random}}"
+                alt="First slide">
+                <div class="carousel-caption"><h1 class="h1-responsive"> {{uuid}}.</h1>
+                </div>
+                </a>                        
+            </div>
             {%endfor%}
     <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>

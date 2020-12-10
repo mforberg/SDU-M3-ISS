@@ -146,11 +146,12 @@
         <div class="modal-body">
           <div class="form-group">
             <input type="hidden" name="payment" value="" id="hiddenval-mp">
+            <input type="hidden" name="payment-mp" value="">
             {{ form2.phone_number.label }}
             {{ form2.phone_number(size=15) }}
             {% if form2.phone_number.errors %}
                 <ul class="errors">
-                    {% for error in form.phone_number.errors %}
+                    {% for error in form2.phone_number.errors %}
                         <li>{{ error }}</li>
                     {% endfor %}
                 </ul>
@@ -161,7 +162,7 @@
         </div>
         <div class="modal-footer">
           <button type="button"  data-dismiss="modal">Close</button>
-            {{form.submit_pay}}
+            {{form2.submit_pay}}
         </form>
         </div>
       </div>

@@ -80,5 +80,6 @@ class BuyLootBox(FlaskForm):
     # card_number = StringField('Card Number', [validators.Length(min=16, max=16)])
 
 class Phone(FlaskForm):
-    phone_number = StringField('Phone Number:', [validators.Length(min=0, max=8)])
+    phone_number = StringField('Phone Number:', [validators.Length(min=0, max=8), validators.DataRequired()])
+    submit_pay = SubmitField('Pay')
 

@@ -1,5 +1,6 @@
 from .database_connection import DatabaseConnection
 import random
+import uuid
 
 #dbc = DatabaseConnection().get_instance()
 
@@ -21,19 +22,19 @@ class LootBox:
 
     def generate_lootbox(self, uuid, dbc, lootbox_type):
         """Method to generate a single lootbox of items based on a customers (UUID) preferences"""
-        print(uuid)
+        #print(uuid)
         preferences = self.__get_preferences(uuid, dbc)
         collected = self.__collect(preferences, dbc)
         probability_assigned_items = self.__set_probabilities(collected, dbc)
         #collected_items = self.__collect(probability_assigned_items, dbc)
         drawn_items = self.__draw_items(probability_assigned_items, lootbox_type)
-
+        dbc.add_lootbox(uuid, drawn_items[1], drawn_items[0], drawn_items[2])
         return drawn_items
 
     def __get_preferences(self, uuid, dbc):
         """TODO: Needs to collect the users preferences from a database, based on their UUID"""
         result = dbc.get_preferences(uuid)
-        print(result)
+        #print(result)
         return result
 
     def __collect(self, preferences, dbc):
@@ -50,6 +51,7 @@ class LootBox:
         result = []
         for item in collected_items:
             if len(item) != 0:
+                print(item)
                 result.append((item[0][0], dbc.get_probability(item[0][0])))
         print(result)
         return result
@@ -87,7 +89,8 @@ class LootBox:
             half_point = round(maxi - ((maxi - mini) / 2))
             discount = random.randint(half_point, maxi)  
         print(discount)
-        return discount, item[0]
+        discount_code = str(uuid.uuid4())
+        return discount, item[0], discount_code
 
 
 #LootBox().__get_preferences(123)

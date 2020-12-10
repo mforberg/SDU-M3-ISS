@@ -112,7 +112,7 @@
       <form action="/lootbox" method="POST">
       <div class="modal-body">
         <div class="form-group">
-            <input type="hidden" name="CreditCard" value="" id="hiddenval">
+            <input type="hidden" name="payment" value="" id="hiddenval">
           <label for="card-number" class="col-form-label">Card number:</label>
           <input type="text" class="form-control" id="number" name="number">
           <label for="card-holder-name" class="col-form-label">Card holder's name:</label>
@@ -145,9 +145,18 @@
         <form action="/lootbox" method="POST">
         <div class="modal-body">
           <div class="form-group">
-            <input type="hidden" name="CreditCard" value="" id="hiddenval-mp">
-            <label for="phone-number" class="col-form-label">Phone number:</label>
-            <input type="text" class="form-control" id="phonenumber" name="phonenumber">
+            <input type="hidden" name="payment" value="" id="hiddenval-mp">
+            {{ form2.phone_number.label }}
+            {{ form2.phone_number(size=15) }}
+            {% if form2.phone_number.errors %}
+                <ul class="errors">
+                    {% for error in form.phone_number.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            <!-- <label for="phone-number" class="col-form-label">Phone number:</label>
+            <input type="text" class="form-control" id="phonenumber" name="phonenumber"> -->
           </div>
         </div>
         <div class="modal-footer">
@@ -158,9 +167,6 @@
       </div>
     </div>
   </div>
-{%if reward%}
-  <script>alert("Discount: {{reward}}% \nOn item: {{name}}") </script>
-{%endif%}
   <script type="text/javascript" src="{{ url_for('static', filename = 'featherstyle.js') }}"></script>
   <script type="text/javascript" src="{{ url_for('static', filename = 'paymentevent.js') }}"></script>
 {% endblock %}

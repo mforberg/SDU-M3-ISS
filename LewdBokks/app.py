@@ -230,15 +230,43 @@ def products():
 @app.route('/lootbox', methods=['POST', 'GET'])
 def loot_box():
     form = BuyLootBox()
-    user_uuid = session['uuid']
-    if request.method == "POST":
-        result = dbc.query("SELECT * FROM business.users")
-        lootbox_type = request.form['CreditCard']
-        print(lootbox_type)
-        discount, item = lb.generate_lootbox(user_uuid, dbc, lootbox_type)
-        return render_template("lootBox.html", form = form, entries = user_uuid,reward = discount, name = item )
-    return render_template("lootBox.html", form = form, entries = user_uuid)
+    form_phone = Phone()
+    if 'uuid' in session:
+        user_uuid = session['uuid']
+        print(form_phone.data)
+        if form_phone.validate_on_submit():
+            #result = dbc.query("SELECT * FROM business.users")
+            print(request.form)
+            lootbox_type = request.form['payment']
+            print(lootbox_type)
+            discount, item, discount_code = lb.generate_lootbox(user_uuid, dbc, lootbox_type)
+            session['discount'] = discount
+            session['item'] = item
+            session ['code'] = discount_code
+            return redirect(url_for('purchase'))     
+            #return render_template("purchase.html", form = form, entries = user_uuid,reward = discount, name = item )
+        return render_template("lootBox.html", form = form, form2 = form_phone, entries = user_uuid)
 
+    else:
+        return render_template("lootBox.html", form = form)
+
+
+@app.route('/purchase')
+def purchase():
+    if 'discount' in session:
+        discount = session.pop('discount')
+        item = session.pop('item')
+        discount_code = session.pop('code')
+        return render_template("purchase.html", reward = discount, name = item, code = discount_code)
+    return render_template("purchase.html")
+
+@app.route('/myloot')
+def myloot():
+    if 'uuid' in session:
+        user = session['uuid']
+        print(user)
+        lootboxes = dbc.get_lootboxes(user)
+        return render_template("myloot.html", entries = lootboxes)
 
 @app.route('/update_prefs', methods=["POST"])
 def update_prefs():

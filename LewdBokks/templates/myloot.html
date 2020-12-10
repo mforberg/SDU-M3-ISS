@@ -1,0 +1,31 @@
+{% extends "basewithnav.html" %}
+{%set active_page = active_page | default('index')-%}
+{% block title %} MyLoot {% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block navcontent %}
+    <div class="row bg-light prefrow">
+        <div class="row text-center">
+            <div class="col-sm-12">
+                <h2>My Lootboxes</h2>
+            </div>
+        </div>
+        <table style="width: 100%;">
+            <tr>
+                <th>ITEM UUID</th>
+                <th>DISCOUNT</th>
+                <th>DISCOUNT CODE</th>
+            </tr>
+            {% if entries %}
+                {% for lootbox in entries %}
+                    <tr>
+                        <td>{{lootbox[1]}}</td>
+                        <td>{{lootbox[2]}}</td>
+                        <td>{{lootbox[3]}}</td>
+                    </tr>
+                {%endfor%}
+            {%endif%}
+        </table>
+    </div>
+{% endblock %}

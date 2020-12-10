@@ -146,8 +146,17 @@
         <div class="modal-body">
           <div class="form-group">
             <input type="hidden" name="payment" value="" id="hiddenval-mp">
-            <label for="phone-number" class="col-form-label">Phone number:</label>
-            <input type="text" class="form-control" id="phonenumber" name="phonenumber">
+            {{ form2.phone_number.label }}
+            {{ form2.phone_number(size=15) }}
+            {% if form2.phone_number.errors %}
+                <ul class="errors">
+                    {% for error in form.phone_number.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            <!-- <label for="phone-number" class="col-form-label">Phone number:</label>
+            <input type="text" class="form-control" id="phonenumber" name="phonenumber"> -->
           </div>
         </div>
         <div class="modal-footer">

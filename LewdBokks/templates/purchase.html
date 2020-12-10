@@ -1,0 +1,15 @@
+{% extends "basewithnav.html" %}
+{%set active_page = active_page | default('index')-%}
+{% block title %} Purchase {% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block navcontent %}
+{%if reward%}
+    <h1>Order has been completed</h1>
+    <div>Thanks for your purchase!</div>
+    <div>The lootbox is for {{name}} and the discount is on {{reward}}%</div>
+    <div>The code is {{code}}</div>
+{%endif%}
+  <!-- <script>alert("Discount: {{reward}}% \nOn item: {{name}}") </script> -->
+{% endblock %}

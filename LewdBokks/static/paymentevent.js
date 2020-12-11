@@ -14,7 +14,6 @@ $("#hiddenval-mp").val(lootboxtype)
 })
 
 
-
   // function checkph(texy){
   //     var phoneNumber = $(texy).val()
   //       if(/^\d+$/.test(phoneNumber) && phoneNumber.length == 8){

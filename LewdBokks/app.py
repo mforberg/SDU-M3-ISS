@@ -209,7 +209,7 @@ def add_coupon():
 def products():
     uber_banger_list_of_uuid = []
 
-    if "username" in session:
+    if ("username" in session):
         uuid = dbc.get_uuid_from_username(session["username"])[0]
         pref_list = dbc.get_preferences(uuid)
 
@@ -219,6 +219,10 @@ def products():
                 uber_banger_list_of_uuid.append(listuuid[0])
     else:
         product_list = dbc.get_products()
+        for uuid in product_list:
+            for listuuid in uuid:
+                uber_banger_list_of_uuid.append(listuuid)
+
         return render_template("products.html", uuids=uber_banger_list_of_uuid)
     return render_template("products.html", uuids=uber_banger_list_of_uuid)
 
@@ -236,9 +240,7 @@ def loot_box():
             session['item'] = item
             session ['code'] = discount_code
             return redirect(url_for('purchase'))     
-
         return render_template("lootBox.html", form = form, entries = user_uuid)
-
     else:
         return render_template("lootBox.html", form = form)
 

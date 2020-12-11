@@ -147,7 +147,7 @@ def validate_registration_company():
 @app.route('/preferences/')
 def preferences():
     unique_categories = dbc.get_distinct_categories()
-    uuid = dbc.get_uuid_from_username(session["username"])[0]
+    uuid = session['uuid']
     pref_list = dbc.get_preferences(uuid)
     prime_entries = {}
     secondary_entries = {}

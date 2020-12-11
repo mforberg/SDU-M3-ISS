@@ -22,7 +22,6 @@ class LootBox:
 
     def generate_lootbox(self, uuid, dbc, lootbox_type):
         """Method to generate a single lootbox of items based on a customers (UUID) preferences"""
-        #print(uuid)
         preferences = self.__get_preferences(uuid, dbc)
         collected = self.__collect(preferences, dbc)
         probability_assigned_items = self.__set_probabilities(collected, dbc)
@@ -34,7 +33,6 @@ class LootBox:
     def __get_preferences(self, uuid, dbc):
         """TODO: Needs to collect the users preferences from a database, based on their UUID"""
         result = dbc.get_preferences(uuid)
-        #print(result)
         return result
 
     def __collect(self, preferences, dbc):
@@ -42,7 +40,6 @@ class LootBox:
         result = []
         for preference in preferences:
             result.append(dbc.get_preferences_items(preference))
-        print(result)
         return result
 
     def __set_probabilities(self, collected_items, dbc):
@@ -51,9 +48,7 @@ class LootBox:
         result = []
         for item in collected_items:
             if len(item) != 0:
-                print(item)
                 result.append((item[0][0], dbc.get_probability(item[0][0])))
-        print(result)
         return result
 
     def __draw_items(self, probabilitiy_assigned_items, lootbox_type):
@@ -81,14 +76,12 @@ class LootBox:
                 loot = "Normal"
             else:
                 loot = "Great"
-        print("loot" + loot)
         if loot == "Normal":
             half_point = round(maxi - ((maxi - mini) / 2))
             discount = random.randint(mini, half_point)
         elif loot == "Great":
             half_point = round(maxi - ((maxi - mini) / 2))
             discount = random.randint(half_point, maxi)  
-        print(discount)
         discount_code = str(uuid.uuid4())
         return discount, item[0], discount_code
 

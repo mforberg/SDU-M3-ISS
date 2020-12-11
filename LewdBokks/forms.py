@@ -76,9 +76,9 @@ class RegisterCompanyForm(FlaskForm):
 
 class BuyLootBox(FlaskForm):
     submit_pay = SubmitField('Pay')
-    #phone_number = StringField('Phone Number:', [validators.Length(min=8, max=8)])
-    # card_number = StringField('Card Number', [validators.Length(min=16, max=16)])
-
-class Phone(FlaskForm):
-    phone_number = StringField('Phone Number:', [validators.Length(min=0, max=8)])
-
+    phone_number = StringField('Phone number:', [validators.Length(min=8, max=8), validators.DataRequired()])
+    card_number = StringField('Card number:', [validators.Length(min=16, max=16), validators.DataRequired()])
+    card_holder = StringField('Card holder\'s name:', [validators.DataRequired()])
+    card_month = StringField('Month:', [validators.Length(min=2, max=2), validators.DataRequired()])
+    card_year = StringField('Year:', [validators.Length(min=2, max=2), validators.DataRequired()])
+    card_security = StringField('Security numbers:', [validators.Length(min=3, max=3), validators.DataRequired()])

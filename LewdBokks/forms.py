@@ -1,10 +1,10 @@
 from flask_wtf import FlaskForm
-from wtforms import widgets, SelectMultipleField, PasswordField, StringField, SubmitField, validators, BooleanField, RadioField, SelectField, IntegerField
+from wtforms import widgets, SelectMultipleField, PasswordField, StringField, SubmitField, validators, BooleanField, \
+    RadioField, SelectField, IntegerField
 from wtforms.validators import DataRequired, Length
 
 
 class LoginForm(FlaskForm):
-
     username = StringField(
         'Name',
         [DataRequired()]
@@ -24,13 +24,11 @@ class RadioChoiceForm(FlaskForm):
 
 
 class DeleteCoupon(FlaskForm):
-
     uuid_name = StringField('uuid_name', validators=[DataRequired()])
     submit_delete = SubmitField('Delete')
 
 
 class AddCoupon(FlaskForm):
-
     prime_category = SelectField(choices=['Mens', 'Women', 'Children'])
     sub_category = SelectField(choices=['None', ])
 
@@ -74,12 +72,12 @@ class RegisterCompanyForm(FlaskForm):
     accept_tos = BooleanField('I accept the TOS', [validators.DataRequired()])
     submit = SubmitField('Submit')
 
+
 class BuyLootBox(FlaskForm):
     submit_pay = SubmitField('Pay')
-    #phone_number = StringField('Phone Number:', [validators.Length(min=8, max=8)])
-    # card_number = StringField('Card Number', [validators.Length(min=16, max=16)])
-
-class Phone(FlaskForm):
-    phone_number = StringField('Phone Number:', [validators.Length(min=0, max=8), validators.DataRequired()])
-    submit_pay = SubmitField('Pay')
-
+    phone_number = StringField('Phone number:', [validators.Length(min=8, max=8), validators.DataRequired()])
+    card_number = StringField('Card number:', [validators.Length(min=16, max=16), validators.DataRequired()])
+    card_holder = StringField('Card holder\'s name:', [validators.DataRequired()])
+    card_month = StringField('Month:', [validators.Length(min=2, max=2), validators.DataRequired()])
+    card_year = StringField('Year:', [validators.Length(min=2, max=2), validators.DataRequired()])
+    card_security = StringField('Security numbers:', [validators.Length(min=3, max=3), validators.DataRequired()])

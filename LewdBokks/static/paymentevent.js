@@ -13,68 +13,59 @@ console.log(lootboxtype)
 $("#hiddenval-mp").val(lootboxtype)
 })
 
-var formerrors = {%if form.errors%}true{%else%} false{%endif%};
 
+  // function checkph(texy){
+  //     var phoneNumber = $(texy).val()
+  //       if(/^\d+$/.test(phoneNumber) && phoneNumber.length == 8){
+  //           console.log(lootboxtype)
+  //           var val = null;
+  //           console.log(val)
+  //           $('#payment-modal-mp').modal('hide'); 
+  //       }
+  //   console.log($(texy).val().length)
+  // }
 
-$(document).ready(function(){
-    $('#pay-mp').click(function(){
-       console.log("pressed")
-    });
-  });
+  // function checkcard(number, holder, month, year, security){
+  //     var cardNumber = $(number).val()
+  //     var cNumberReal = false
 
+  //     var holderName = $(holder).val()
+  //     var hNameReal = false
 
-  function checkph(texy){
-      var phoneNumber = $(texy).val()
-        if(/^\d+$/.test(phoneNumber) && phoneNumber.length == 8){
-            console.log(lootboxtype)
-            var val = null;
-            console.log(val)
-            $('#payment-modal-mp').modal('hide'); 
-        }
-    console.log($(texy).val().length)
-  }
+  //     var monthEnd = $(month).val()
+  //     var monthReal = false 
 
-  function checkcard(number, holder, month, year, security){
-      var cardNumber = $(number).val()
-      var cNumberReal = false
+  //     var yearEnd = $(year).val()
+  //     var yearReal = false
 
-      var holderName = $(holder).val()
-      var hNameReal = false
+  //     var security = $(security).val()
+  //     var sNumberReal = false
 
-      var monthEnd = $(month).val()
-      var monthReal = false 
+  //     if(cardNumber.length == 16 && /^\d+$/.test(cardNumber)){
+  //       cNumberReal = true
 
-      var yearEnd = $(year).val()
-      var yearReal = false
+  //     }
 
-      var security = $(security).val()
-      var sNumberReal = false
+  //     if(holderName.length !== 0){
+  //       hNameReal = true
+  //     }
 
-      if(cardNumber.length == 16 && /^\d+$/.test(cardNumber)){
-        cNumberReal = true
+  //     if(/^\d+$/.test(monthEnd)){
+  //       monthReal = true
+  //     }
 
-      }
+  //     if(/^\d+$/.test(yearEnd)){
+  //       yearReal = true
+  //     }
 
-      if(holderName.length !== 0){
-        hNameReal = true
-      }
+  //     if(/^\d+$/.test(sNumberReal) && sNumberReal.length == 3){
+  //       cNumberReal = true
+  //     }
 
-      if(/^\d+$/.test(monthEnd)){
-        monthReal = true
-      }
-
-      if(/^\d+$/.test(yearEnd)){
-        yearReal = true
-      }
-
-      if(/^\d+$/.test(sNumberReal) && sNumberReal.length == 3){
-        cNumberReal = true
-      }
-
-      //check if all the information is correct
-      if(cNumberReal && hNameReal && monthReal && yearReal && cNumberReal){
-          console.log(lootboxtype)
-          $('#payment-modal').modal('hide'); 
-      }
-  }
+  //     //check if all the information is correct
+  //     if(cNumberReal && hNameReal && monthReal && yearReal && cNumberReal){
+  //         console.log(lootboxtype)
+  //         $('#payment-modal').modal('hide'); 
+  //     }
+  // }
 

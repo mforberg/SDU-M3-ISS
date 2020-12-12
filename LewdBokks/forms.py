@@ -1,10 +1,10 @@
 from flask_wtf import FlaskForm
-from wtforms import widgets, SelectMultipleField, PasswordField, StringField, SubmitField, validators, BooleanField, RadioField, SelectField, IntegerField
+from wtforms import widgets, SelectMultipleField, PasswordField, StringField, SubmitField, validators, BooleanField, \
+    RadioField, SelectField, IntegerField
 from wtforms.validators import DataRequired, Length
 
 
 class LoginForm(FlaskForm):
-
     username = StringField(
         'Name',
         [DataRequired()]
@@ -24,13 +24,11 @@ class RadioChoiceForm(FlaskForm):
 
 
 class DeleteCoupon(FlaskForm):
-
     uuid_name = StringField('uuid_name', validators=[DataRequired()])
     submit_delete = SubmitField('Delete')
 
 
 class AddCoupon(FlaskForm):
-
     prime_category = SelectField(choices=['Mens', 'Women', 'Children'])
     sub_category = SelectField(choices=['None', ])
 
@@ -73,6 +71,7 @@ class RegisterCompanyForm(FlaskForm):
     confirm = PasswordField('Repeat Password', [validators.DataRequired()])
     accept_tos = BooleanField('I accept the TOS', [validators.DataRequired()])
     submit = SubmitField('Submit')
+
 
 class BuyLootBox(FlaskForm):
     submit_pay = SubmitField('Pay')

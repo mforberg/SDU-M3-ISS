@@ -1,5 +1,4 @@
 from flask import Flask, request, render_template, redirect, url_for, session
-from backend.db import *
 import json
 from forms import *
 import os
@@ -65,11 +64,13 @@ def logout():
         session.pop('business')
     return redirect(url_for('index'))
 
+
 @app.route('/emergencysessionclear')
 def nukeem():
-   session.clear()
-   [session.pop(key) for key in list(session.keys())]
-   return redirect(url_for('index'))
+    session.clear()
+    [session.pop(key) for key in list(session.keys())]
+    return redirect(url_for('index'))
+
 
 @app.route('/register')
 def register():
@@ -209,7 +210,7 @@ def add_coupon():
 def products():
     uber_banger_list_of_uuid = []
 
-    if ("username" in session):
+    if "username" in session:
         uuid = dbc.get_uuid_from_username(session["username"])[0]
         pref_list = dbc.get_preferences(uuid)
 
@@ -233,16 +234,15 @@ def loot_box():
     if 'uuid' in session:
         user_uuid = session['uuid']
         if request.method == 'POST':
-
             lootbox_type = request.form['payment']
             discount, item, discount_code = lb.generate_lootbox(user_uuid, dbc, lootbox_type)
             session['discount'] = discount
             session['item'] = item
-            session ['code'] = discount_code
-            return redirect(url_for('purchase'))     
-        return render_template("lootBox.html", form = form, entries = user_uuid)
+            session['code'] = discount_code
+            return redirect(url_for('purchase'))
+        return render_template("lootBox.html", form=form, entries=user_uuid)
     else:
-        return render_template("lootBox.html", form = form)
+        return render_template("lootBox.html", form=form)
 
 
 @app.route('/purchase')
@@ -251,15 +251,17 @@ def purchase():
         discount = session.pop('discount')
         item = session.pop('item')
         discount_code = session.pop('code')
-        return render_template("purchase.html", reward = discount, name = item, code = discount_code)
+        return render_template("purchase.html", reward=discount, name=item, code=discount_code)
     return render_template("purchase.html")
+
 
 @app.route('/myloot')
 def myloot():
     if 'uuid' in session:
         user = session['uuid']
         lootboxes = dbc.get_lootboxes(user)
-        return render_template("myloot.html", entries = lootboxes)
+        return render_template("myloot.html", entries=lootboxes)
+
 
 @app.route('/update_prefs', methods=["POST"])
 def update_prefs():
@@ -269,6 +271,7 @@ def update_prefs():
         pref_list.append(key)
     dbc.update_users_preferences(uuid, pref_list)
     return redirect(url_for('index'))
+
 
 if __name__ == "__main__":
     app.run(debug=True)

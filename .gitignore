@@ -14,3 +14,6 @@ LewdBokks/backend/db_config.py
 LewdBokks/config.py
 flask_session/*
 flask_session
+*.png
+*.txt
+*.jar

@@ -172,7 +172,7 @@ def coupons():
     if 'uuid' in session:
         b_uuid = session['uuid']
     else:
-        raise Exception("Oof")
+        return redirect(url_for('index'))
     categories = dbc.get_distinct_categories()
     form = DeleteCoupon()
     form2 = AddCoupon(primary_cat=categories[0], sub_cat=categories[1])
